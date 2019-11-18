@@ -1,0 +1,12 @@
+{
+  "plugins": ["babel-plugin-transform-async-to-promises"],
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": "last 2 versions and >1%",
+        "loose": true
+      }
+    ]
+  ]
+}
