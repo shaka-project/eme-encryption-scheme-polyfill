@@ -2,8 +2,8 @@
 
 A polyfill to add support for EncryptionScheme queries in EME.
 
-https://wicg.github.io/encrypted-media-encryption-scheme/
-https://github.com/WICG/encrypted-media-encryption-scheme/issues/13
+ - https://wicg.github.io/encrypted-media-encryption-scheme/
+ - https://github.com/WICG/encrypted-media-encryption-scheme/issues/13
 
 Because this polyfill can't know what schemes the UA or CDM actually support,
 it assumes support for the historically-supported schemes of each well-known
