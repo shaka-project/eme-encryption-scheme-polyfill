@@ -55,5 +55,65 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (error) {
       window.results.textContent = formatObjectToString({error: error.message});
     }
-  });  // emeRunButton click listener
+  });  // emeRun click listener
+
+  window.mcRun.addEventListener('click', async () => {
+    // Pull contents of query form.
+    const keySystem = window.keySystem.input.value;
+    // If encryptionScheme is blank, default to null.
+    const encryptionScheme = window.encryptionScheme.input.value || null;
+    const audio = window.audio.input.value;
+    const video = window.video.input.value;
+
+    const config = {
+      type: 'media-source',
+    };
+
+    if (keySystem) {
+      config.keySystemConfiguration = {
+        keySystem,
+      };
+    }
+
+    if (audio) {
+      config.audio = {
+        contentType: audio,
+      };
+
+      if (keySystem) {
+        config.keySystemConfiguration.audio = {
+          encryptionScheme,
+        };
+      }
+    }
+
+    if (video) {
+      config.video = {
+        contentType: video,
+        width: 640,
+        height: 480,
+        bitrate: 1,
+        framerate: 24,
+      };
+
+      if (keySystem) {
+        config.keySystemConfiguration.video = {
+          encryptionScheme,
+        };
+      }
+    }
+
+    try {
+      const result = await navigator.mediaCapabilities.decodingInfo(config);
+      results.textContent = formatObjectToString(result);
+
+      const mksa = result.keySystemAccess;
+      if (mksa) {
+        results.textContent += '\n' +
+            formatObjectToString(mksa.getConfiguration());
+      }
+    } catch (error) {
+      results.textContent = formatObjectToString({error: error.message});
+    }
+  });  // mcRun click listener
 });  // DOMContentLoaded listener

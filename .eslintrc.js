@@ -53,6 +53,9 @@ module.exports = {
       {
         // These types are browser-provided, so trust that they exist.
         'definedTypes': [
+          'MediaCapabilities',
+          'MediaCapabilitiesDecodingInfo',
+          'MediaDecodingConfiguration',
           'MediaKeySystemConfiguration',
           'MediaKeySystemMediaCapability',
         ],

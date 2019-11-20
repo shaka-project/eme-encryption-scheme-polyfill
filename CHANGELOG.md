@@ -1,3 +1,10 @@
+## 1.1.0 (2019-12-12)
+
+Features:
+  - Added support for polyfilling MediaCapabilities, too
+    - https://github.com/w3c/media-capabilities/issues/100
+
+
 ## 1.0.3 (2019-12-05)
 
 Bugfixes:
