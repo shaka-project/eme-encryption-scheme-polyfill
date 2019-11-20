@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>EME Encryption Scheme Polyfill - load with RequireJS</title>
+    <script src="https://unpkg.com/requirejs@^2/require.js"></script>
+    <script>
+      async function testLoader() {
+        return await new Promise((resolve, reject) => {
+          // If it's not loaded in 5 seconds, fail.
+          setTimeout(() => reject(new Error('timeout!')), 5000);
+
+          require(['../../dist/eme-encryption-scheme-polyfill.js'], (polyfill) => {
+            resolve(checkDefinition(polyfill));
+          });
+        });
+      }
+    </script>
+    <script src="test-load.js"></script>
+  </head>
+  <body></body>
+</html>

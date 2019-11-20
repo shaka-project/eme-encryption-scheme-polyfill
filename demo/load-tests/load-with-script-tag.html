@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>EME Encryption Scheme Polyfill - load with script tag</title>
+    <script src="../../dist/eme-encryption-scheme-polyfill.js"></script>
+    <script>
+      async function testLoader() {
+        return typeof EmeEncryptionSchemePolyfill != 'undefined' &&
+               checkDefinition(EmeEncryptionSchemePolyfill);
+      }
+    </script>
+    <script src="test-load.js"></script>
+  </head>
+  <body></body>
+</html>
