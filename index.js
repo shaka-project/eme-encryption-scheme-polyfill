@@ -185,22 +185,19 @@ class EmeEncryptionSchemePolyfill {
           !filteredVideoCapabilities.length) {
         // We eliminated all of the video capabilities, so this configuration
         // is unusable.
-        continue;
-      }
-      if (configuration.audioCapabilities &&
+      } else if (configuration.audioCapabilities &&
           configuration.audioCapabilities.length &&
           !filteredAudioCapabilities.length) {
         // We eliminated all of the audio capabilities, so this configuration
         // is unusable.
-        continue;
+      } else {
+        // Recreate a clone of the configuration and modify that.  This way, we
+        // don't modify the application-provided config objects.
+        const clonedConfiguration = Object.assign({}, configuration);
+        clonedConfiguration.videoCapabilities = filteredVideoCapabilities;
+        clonedConfiguration.audioCapabilities = filteredAudioCapabilities;
+        filteredSupportedConfigurations.push(clonedConfiguration);
       }
-
-      // Recreate a clone of the configuration and modify that.  This way, we
-      // don't modify the application-provided config objects.
-      const clonedConfiguration = Object.assign({}, configuration);
-      clonedConfiguration.videoCapabilities = filteredVideoCapabilities;
-      clonedConfiguration.audioCapabilities = filteredAudioCapabilities;
-      filteredSupportedConfigurations.push(clonedConfiguration);
     }
 
     if (!filteredSupportedConfigurations.length) {
