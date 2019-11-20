@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
   emeRunButton.addEventListener('click', async () => {
     // Pull contents of query form.
     const keySystem = window.keySystem.input.value;
-    // If encryptionScheme is black, default to null.
+    // If encryptionScheme is blank, default to null.
     const encryptionScheme = window.encryptionScheme.input.value || null;
     const audio = window.audio.input.value;
     const video = window.video.input.value;
