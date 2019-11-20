@@ -228,11 +228,11 @@ class EmeEncryptionSchemePolyfill {
   /**
    * Filters out capabilities that don't match the supported encryption scheme.
    *
-   * @param {!Array.<MediaKeySystemMediaCapability>|undefined} capabilities
+   * @param {!Array.<!MediaKeySystemMediaCapability>|undefined} capabilities
    *   An array of capabilities, or null or undefined.
    * @param {?string} supportedScheme The encryption scheme that we think is
    *   supported by the key system.
-   * @return {!Array.<MediaKeySystemMediaCapability>|undefined} A filtered
+   * @return {!Array.<!MediaKeySystemMediaCapability>|undefined} A filtered
    *   array of capabilities based on |supportedScheme|.  May be undefined if
    *   the input was undefined.
    * @private
