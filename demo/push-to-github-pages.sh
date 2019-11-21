@@ -28,7 +28,7 @@ git clone "$REPO" build
 
 pushd build
 git checkout "$SOURCE_BRANCH"
-SHA=`git rev-parse --verify HEAD`
+SHA=$(git rev-parse --verify HEAD)
 npm install
 npm run-script prepublishOnly
 popd
