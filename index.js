@@ -13,8 +13,8 @@
  * it assumes support for the historically-supported schemes of each well-known
  * key system.
  *
- * In source form, this is compatible with the Closure Compiler and the CommonJS
- * module format.  It can also be directly included via a script tag.
+ * In source form, this is compatible with the Closure Compiler, CommonJS, and
+ * AMD module formats.  It can also be directly included via a script tag.
  *
  * The minified bundle is a standalone module compatible with the CommonJS and
  * AMD module formats, and can also be directly included via a script tag.
@@ -326,11 +326,10 @@ class EmeEncryptionSchemePolyfillMediaKeySystemAccess {
  */
 EmeEncryptionSchemePolyfill.originalRMKSA_;
 
-// Support for CommonJS module format.
+// Support for CommonJS and AMD module formats.
 /** @suppress {undefinedVars} */
 (() => {
-  if (typeof exports !== 'undefined') {
-    // eslint-disable-next-line no-undef
-    exports = EmeEncryptionSchemePolyfill;
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = EmeEncryptionSchemePolyfill;
   }
 })();

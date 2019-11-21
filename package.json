@@ -16,7 +16,7 @@
   },
   "scripts": {
     "lint": "eslint index.js",
-    "build": "browserify index.js -s EncryptionSchemePolyfill -t babelify -t stripify -p tinyify -p browserify-header -o dist/eme-encryption-scheme-polyfill.js",
+    "build": "browserify index.js -s EmeEncryptionSchemePolyfill -t babelify -t stripify -p tinyify -p browserify-header -o dist/eme-encryption-scheme-polyfill.js",
     "prepublishOnly": "npm run-script lint && npm run-script build"
   },
   "devDependencies": {
