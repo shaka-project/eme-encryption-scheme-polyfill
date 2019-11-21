@@ -329,9 +329,7 @@ EmeEncryptionSchemePolyfill.originalRMKSA_;
 // Support for CommonJS and AMD module formats.
 /** @suppress {undefinedVars} */
 (() => {
-  // eslint-disable-next-line no-undef
   if (typeof module !== 'undefined' && module.exports) {
-    // eslint-disable-next-line no-undef
     module.exports = EmeEncryptionSchemePolyfill;
   }
 })();

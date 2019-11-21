@@ -39,6 +39,9 @@ module.exports = {
       },
     },
   },
+  'globals': {
+    'module': 'readonly',  // For CommonJS/AMD export
+  },
   'rules': {
     // Deprecated and replaced by community jsdoc plugin:
     'valid-jsdoc': 'off',
