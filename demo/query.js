@@ -17,9 +17,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const formatObjectToString = (obj) => JSON.stringify(obj, null, 2);
 
-  const emeRunButton = document.querySelector('#emeRun');
-
-  emeRunButton.addEventListener('click', async () => {
+  window.emeRun.addEventListener('click', async () => {
     // Pull contents of query form.
     const keySystem = window.keySystem.input.value;
     // If encryptionScheme is blank, default to null.
@@ -46,9 +44,10 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const mksa =
           await navigator.requestMediaKeySystemAccess(keySystem, [config]);
-      results.textContent = formatObjectToString(mksa.getConfiguration());
+      window.results.textContent =
+          formatObjectToString(mksa.getConfiguration());
     } catch (error) {
-      results.textContent = formatObjectToString({error: error.message});
+      window.results.textContent = formatObjectToString({error: error.message});
     }
   });  // emeRunButton click listener
 });  // DOMContentLoaded listener
