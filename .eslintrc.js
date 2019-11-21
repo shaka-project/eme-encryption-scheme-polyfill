@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2019 Google Inc.
+ * Copyright 2019 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,6 +38,9 @@ module.exports = {
         'constant': 'const',
       },
     },
+  },
+  'globals': {
+    'module': 'readonly',  // For CommonJS/AMD export
   },
   'rules': {
     // Deprecated and replaced by community jsdoc plugin:

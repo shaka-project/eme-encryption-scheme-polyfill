@@ -3,6 +3,7 @@
 A polyfill to add support for EncryptionScheme queries in EME.
 
  - https://wicg.github.io/encrypted-media-encryption-scheme/
+ - https://google.github.io/eme-encryption-scheme-polyfill/demo/
  - https://github.com/WICG/encrypted-media-encryption-scheme/issues/13
 
 Because this polyfill can't know what schemes the UA or CDM actually support,
