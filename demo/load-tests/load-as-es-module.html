@@ -22,7 +22,7 @@
     <title>EME Encryption Scheme Polyfill - load as ES module</title>
     <script type="module" src="../../dist/eme-encryption-scheme-polyfill.js"></script>
     <script>
-      async function testLoader() {
+      function testLoader() {
         return typeof EmeEncryptionSchemePolyfill != 'undefined' &&
                checkDefinition(EmeEncryptionSchemePolyfill);
       }
