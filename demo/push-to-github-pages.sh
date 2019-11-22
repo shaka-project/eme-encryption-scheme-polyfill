@@ -42,6 +42,7 @@ pushd gh-pages
 git checkout "$TARGET_BRANCH"
 git rm -rf *
 mv ../build/* .
+rm -rf node_modules/
 git add *
 git commit -m "Deploy to GitHub Pages: $SHA" --no-verify
 git push "$REPO" "$TARGET_BRANCH"
