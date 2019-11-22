@@ -27,12 +27,10 @@
     "babelify": "^10.0.0",
     "browserify": "^16.5.0",
     "browserify-header": "^1.0.1",
-    "elix": "^9.0.1",
     "eslint": "^6.6.0",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-jsdoc": "^18.0.1",
     "google-closure-compiler": "latest",
-    "requirejs": "^2.3.6",
     "stripify": "^6.0.0",
     "tinyify": "^2.5.2"
   },
