@@ -1,7 +1,7 @@
 {
   "name": "eme-encryption-scheme-polyfill",
   "description": "A polyfill for the encryptionScheme field in EME",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "Apache-2.0",
   "author": "Google",
   "homepage": "https://github.com/google/eme-encryption-scheme-polyfill#readme",
@@ -30,7 +30,7 @@
     "eslint": "^6.6.0",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-jsdoc": "^18.0.1",
-    "google-closure-compiler": "^20191111.0.0",
+    "google-closure-compiler": "latest",
     "stripify": "^6.0.0",
     "tinyify": "^2.5.2"
   },
