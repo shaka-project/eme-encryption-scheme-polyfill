@@ -16,8 +16,9 @@
   },
   "scripts": {
     "lint": "eslint index.js",
+    "closure-compiler-check": "google-closure-compiler -O ADVANCED --generate_exports --js_output_file /dev/null --jscomp_error '*' closure-compiler-check/* index.js",
     "build": "browserify index.js -s EmeEncryptionSchemePolyfill -t babelify -t stripify -p tinyify -p browserify-header -o dist/eme-encryption-scheme-polyfill.js",
-    "prepublishOnly": "npm run-script lint && npm run-script build"
+    "prepublishOnly": "npm run-script lint && npm run-script closure-compiler-check && npm run-script build"
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",
@@ -29,6 +30,7 @@
     "eslint": "^6.6.0",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-jsdoc": "^18.0.1",
+    "google-closure-compiler": "^20191111.0.0",
     "stripify": "^6.0.0",
     "tinyify": "^2.5.2"
   },

@@ -119,7 +119,7 @@ class EmeEncryptionSchemePolyfill {
     // If supported by the browser, the encryptionScheme field must appear in
     // the returned configuration, regardless of whether or not it was
     // specified in the supportedConfigurations given by the application.
-    if (firstCapability.encryptionScheme !== undefined) {
+    if (firstCapability['encryptionScheme'] !== undefined) {
       // The browser supports the encryptionScheme field!
       // No need for a patch.  Revert back to the original implementation.
       console.debug('EmeEncryptionSchemePolyfill: ' +
@@ -193,6 +193,7 @@ class EmeEncryptionSchemePolyfill {
       } else {
         // Recreate a clone of the configuration and modify that.  This way, we
         // don't modify the application-provided config objects.
+        /** @type {!MediaKeySystemConfiguration} */
         const clonedConfiguration = Object.assign({}, configuration);
         clonedConfiguration.videoCapabilities = filteredVideoCapabilities;
         clonedConfiguration.audioCapabilities = filteredAudioCapabilities;
@@ -210,7 +211,7 @@ class EmeEncryptionSchemePolyfill {
       const unsupportedError = new Error(
           'Unsupported keySystem or supportedConfigurations.');
       unsupportedError.name = 'NotSupportedError';
-      unsupportedError.code = DOMException.NOT_SUPPORTED_ERR;
+      unsupportedError['code'] = DOMException.NOT_SUPPORTED_ERR;
       throw unsupportedError;
     }
 
@@ -228,11 +229,11 @@ class EmeEncryptionSchemePolyfill {
   /**
    * Filters out capabilities that don't match the supported encryption scheme.
    *
-   * @param {!Array.<MediaKeySystemMediaCapability>|undefined} capabilities
+   * @param {!Array.<!MediaKeySystemMediaCapability>|undefined} capabilities
    *   An array of capabilities, or null or undefined.
    * @param {?string} supportedScheme The encryption scheme that we think is
    *   supported by the key system.
-   * @return {!Array.<MediaKeySystemMediaCapability>|undefined} A filtered
+   * @return {!Array.<!MediaKeySystemMediaCapability>|undefined} A filtered
    *   array of capabilities based on |supportedScheme|.  May be undefined if
    *   the input was undefined.
    * @private
@@ -245,8 +246,8 @@ class EmeEncryptionSchemePolyfill {
     return capabilities.filter((capability) => {
       // No specific scheme always works.  In addition, accept the specific
       // scheme we guessed for this UA.
-      return !capability.encryptionScheme ||
-          capability.encryptionScheme == supportedScheme;
+      return !capability['encryptionScheme'] ||
+          capability['encryptionScheme'] == supportedScheme;
     });
   }
 }
@@ -291,13 +292,13 @@ class EmeEncryptionSchemePolyfillMediaKeySystemAccess {
 
     if (configuration.videoCapabilities) {
       for (const capability of configuration.videoCapabilities) {
-        capability.encryptionScheme = this.scheme_;
+        capability['encryptionScheme'] = this.scheme_;
       }
     }
 
     if (configuration.audioCapabilities) {
       for (const capability of configuration.audioCapabilities) {
-        capability.encryptionScheme = this.scheme_;
+        capability['encryptionScheme'] = this.scheme_;
       }
     }
 
