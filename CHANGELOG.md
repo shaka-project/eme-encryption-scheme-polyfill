@@ -1,3 +1,9 @@
+## 1.0.2 (2019-12-02)
+
+Bugfixes:
+  - Fix infinite recursion when the polyfill is installed twice.
+
+
 ## 1.0.1 (2019-11-22)
 
 Bugfixes:
@@ -8,6 +14,7 @@ Bugfixes:
 Features:
   - Added a demo / manual testing page
     - https://google.github.io/eme-encryption-scheme-polyfill/demo/
+
 
 ## 1.0.0 (2019-11-18)
 
