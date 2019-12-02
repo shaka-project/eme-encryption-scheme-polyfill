@@ -29,7 +29,7 @@
     "browserify-header": "^1.0.1",
     "eslint": "^6.6.0",
     "eslint-config-google": "^0.14.0",
-    "eslint-plugin-jsdoc": "^18.0.1",
+    "eslint-plugin-jsdoc": "^18.4.1",
     "google-closure-compiler": "latest",
     "stripify": "^6.0.0",
     "tinyify": "^2.5.2"
