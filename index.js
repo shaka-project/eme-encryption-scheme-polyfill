@@ -33,6 +33,10 @@ class EmeEncryptionSchemePolyfill {
    * @export
    */
   static install() {
+    if (EmeEncryptionSchemePolyfill.originalRMKSA_) {
+      console.debug('EmeEncryptionSchemePolyfill: Already installed.');
+      return;
+    }
     if (!navigator.requestMediaKeySystemAccess ||
         !MediaKeySystemAccess.prototype.getConfiguration) {
       console.debug('EmeEncryptionSchemePolyfill: EME not found');
