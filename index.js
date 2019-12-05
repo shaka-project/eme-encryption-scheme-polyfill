@@ -73,7 +73,7 @@ class EmeEncryptionSchemePolyfill {
     } else if (keySystem.startsWith('org.w3')) {
       return 'cenc';
     } else if (keySystem.startsWith('com.apple')) {
-      return 'cbcs-recommended';
+      return 'cbcs-1-9';
     }
 
     // We don't have this key system in our map!

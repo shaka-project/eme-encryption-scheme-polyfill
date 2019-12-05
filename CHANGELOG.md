@@ -1,3 +1,9 @@
+## 1.0.3 (2019-12-05)
+
+Bugfixes:
+  - Update cbcs-recommended to cbcs-1-9 to keep up with spec changes
+
+
 ## 1.0.2 (2019-12-02)
 
 Bugfixes:
