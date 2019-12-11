@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 The Closure Compiler authors
+ * Copyright 2019 The Closure Compiler authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -101,8 +101,8 @@ var KeySystemTrackConfiguration;
  *   distinctiveIdentifier: (string|undefined),
  *   persistentState: (string|undefined),
  *   sessionTypes: (!Array<string>|undefined),
- *   audio: (KeySystemTrackConfiguration|undefined),
- *   video: (KeySystemTrackConfiguration|undefined)
+ *   audio: (!KeySystemTrackConfiguration|undefined),
+ *   video: (!KeySystemTrackConfiguration|undefined)
  * }}
  * @see https://w3c.github.io/media-capabilities/#dictdef-mediacapabilitieskeysystemconfiguration
  */
@@ -114,10 +114,10 @@ var MediaCapabilitiesKeySystemConfiguration;
  */
 function MediaConfiguration() {}
 
-/** @type {VideoConfiguration|undefined} */
+/** @type {!VideoConfiguration|undefined} */
 MediaConfiguration.prototype.video;
 
-/** @type {AudioConfiguration|undefined} */
+/** @type {!AudioConfiguration|undefined} */
 MediaConfiguration.prototype.audio;
 
 /**
@@ -130,7 +130,7 @@ function MediaDecodingConfiguration() {}
 /** @type {MediaDecodingType} */
 MediaDecodingConfiguration.prototype.type;
 
-/** @type {MediaCapabilitiesKeySystemConfiguration|undefined} */
+/** @type {!MediaCapabilitiesKeySystemConfiguration|undefined} */
 MediaDecodingConfiguration.prototype.keySystemConfiguration;
 
 /**
@@ -165,10 +165,10 @@ MediaCapabilitiesInfo.prototype.powerEfficient;
  */
 function MediaCapabilitiesDecodingInfo() {}
 
-/** @type {MediaKeySystemAccess} */
+/** @type {?MediaKeySystemAccess} */
 MediaCapabilitiesDecodingInfo.prototype.keySystemAccess;
 
-/** @type {MediaDecodingConfiguration} */
+/** @type {!MediaDecodingConfiguration} */
 MediaCapabilitiesDecodingInfo.prototype.configuration;
 
 /**
@@ -178,7 +178,7 @@ MediaCapabilitiesDecodingInfo.prototype.configuration;
  */
 function MediaCapabilitiesEncodingInfo() {}
 
-/** @type {MediaEncodingConfiguration} */
+/** @type {!MediaEncodingConfiguration} */
 MediaCapabilitiesEncodingInfo.prototype.configuration;
 
 /**
