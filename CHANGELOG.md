@@ -1,4 +1,4 @@
-## 1.1.0 (2019-12-12)
+## 2.0.0 (2019-12-12)
 
 Features:
   - Added support for polyfilling MediaCapabilities, too

@@ -519,15 +519,27 @@ EmeEncryptionSchemePolyfill.originalRMKSA_;
  */
 McEncryptionSchemePolyfill.originalDecodingInfo_;
 
+/**
+ * A single entry point for both polyfills (EME & MC).
+ *
+ * @export
+ */
+class EncryptionSchemePolyfills {
+  /**
+   * Installs both polyfills (EME & MC).
+   *
+   * @export
+   */
+  static install() {
+    EmeEncryptionSchemePolyfill.install();
+    McEncryptionSchemePolyfill.install();
+  }
+}
+
 // Support for CommonJS and AMD module formats.
 /** @suppress {undefinedVars} */
 (() => {
   if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-      install: () => {
-        EmeEncryptionSchemePolyfill.install();
-        McEncryptionSchemePolyfill.install();
-      },
-    };
+    module.exports = EncryptionSchemePolyfills;
   }
 })();

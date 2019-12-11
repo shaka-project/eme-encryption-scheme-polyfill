@@ -1,4 +1,4 @@
-# EME Encryption Scheme Polyfill
+# EME & MediaCapabilities Encryption Scheme Polyfill
 
 A polyfill to add support for EncryptionScheme queries in EME and
 MediaCapabilities.
@@ -36,5 +36,10 @@ npm install eme-encryption-scheme-polyfill
 ```
 
 ```js
+// Install both EME & MC polyfills at once:
+EncryptionSchemePolyfills.install();
+
+// Install each one separately (unminified source only):
 EmeEncryptionSchemePolyfill.install();
+McEncryptionSchemePolyfill.install();
 ```
