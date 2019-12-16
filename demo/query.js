@@ -27,6 +27,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const config = {};
 
+    // As of Safari 13, Apple only responds to this non-standard init data type.
+    if (keySystem.startsWith('com.apple')) {
+      config.initDataTypes = ['sinf'];
+    }
+
     if (audio) {
       config.audioCapabilities = [{
         contentType: audio,

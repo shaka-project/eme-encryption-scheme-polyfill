@@ -36,6 +36,13 @@ elix-auto-complete-combo-box {
   max-width: 300px;
 }
 
+/* Work around a bug where elix-auto-complete-combo-boxes render underneath each
+ * other in Safari.  We're using explicit z-indexes to work around this. */
+#keySystem { z-index: 9; }
+#encryptionScheme { z-index: 8; }
+#audio { z-index: 7; }
+#video { z-index: 6; }
+
 button {
   font-size: 150%;
   margin: 0.5em;
