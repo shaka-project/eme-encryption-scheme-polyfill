@@ -1,4 +1,5 @@
 /*
+ * @license
  * Copyright 2019 The Closure Compiler authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -58,9 +59,9 @@ var MediaEncodingType;
  *   bitrate: number,
  *   framerate: number,
  *   hasAlphaChannel: (boolean|undefined),
- *   hdrMetadataType: (HdrMetadataType|undefined),
- *   colorGamut: (ColorGamut|undefined),
- *   transferFunction: (TransferFunction|undefined)
+ *   hdrMetadataType: (!HdrMetadataType|undefined),
+ *   colorGamut: (!ColorGamut|undefined),
+ *   transferFunction: (!TransferFunction|undefined)
  * }}
  * @see https://w3c.github.io/media-capabilities/#dictdef-videoconfiguration
  */
@@ -199,8 +200,8 @@ MediaCapabilities.prototype.decodingInfo = function(configuration) {};
  */
 MediaCapabilities.prototype.encodingInfo = function(configuration) {};
 
-/** @const {MediaCapabilities} */
+/** @const {?MediaCapabilities} */
 Navigator.prototype.mediaCapabilities;
 
-/** @const {MediaCapabilities} */
+/** @const {?MediaCapabilities} */
 WorkerNavigator.prototype.mediaCapabilities;
