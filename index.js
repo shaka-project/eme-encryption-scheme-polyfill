@@ -56,38 +56,6 @@ class EmeEncryptionSchemePolyfill {
   }
 
   /**
-   * Guess the supported encryption scheme for the key system.
-   *
-   * @param {string} keySystem The key system ID.
-   * @return {?string} A guess at the encryption scheme this key system
-   *   supports.
-   * @private
-   */
-  static guessSupportedScheme_(keySystem) {
-    if (keySystem.startsWith('com.widevine')) {
-      return 'cenc';
-    } else if (keySystem.startsWith('com.microsoft')) {
-      return 'cenc';
-    } else if (keySystem.startsWith('com.adobe')) {
-      return 'cenc';
-    } else if (keySystem.startsWith('org.w3')) {
-      return 'cenc';
-    } else if (keySystem.startsWith('com.apple')) {
-      return 'cbcs-1-9';
-    }
-
-    // We don't have this key system in our map!
-
-    // Log a warning.  The only way the request will succeed now is if the
-    // app doesn't specify an encryption scheme in their own configs.
-    // Use bracket notation to keep this from being stripped from the build.
-    console['warn']('EmeEncryptionSchemePolyfill: Unknown key system:',
-        keySystem, 'Please contribute!');
-
-    return null;
-  }
-
-  /**
    * A shim for navigator.requestMediaKeySystemAccess to check for
    * encryptionScheme support.  Only used until we know if the browser has
    * native support for the encryptionScheme field.
@@ -110,20 +78,7 @@ class EmeEncryptionSchemePolyfill {
         await EmeEncryptionSchemePolyfill.originalRMKSA_.call(
             this, keySystem, supportedConfigurations);
 
-    const configuration = mediaKeySystemAccess.getConfiguration();
-
-    // It doesn't matter which capability we look at.  For this check, they
-    // should all produce the same result.
-    const firstVideoCapability =
-        configuration.videoCapabilities && configuration.videoCapabilities[0];
-    const firstAudioCapability =
-        configuration.audioCapabilities && configuration.audioCapabilities[0];
-    const firstCapability = firstVideoCapability || firstAudioCapability;
-
-    // If supported by the browser, the encryptionScheme field must appear in
-    // the returned configuration, regardless of whether or not it was
-    // specified in the supportedConfigurations given by the application.
-    if (firstCapability['encryptionScheme'] !== undefined) {
+    if (hasEncryptionScheme(mediaKeySystemAccess)) {
       // The browser supports the encryptionScheme field!
       // No need for a patch.  Revert back to the original implementation.
       console.debug('EmeEncryptionSchemePolyfill: ' +
@@ -170,8 +125,7 @@ class EmeEncryptionSchemePolyfill {
     console.assert(this == navigator,
         'bad "this" for requestMediaKeySystemAccess');
 
-    const supportedScheme = EmeEncryptionSchemePolyfill.guessSupportedScheme_(
-        keySystem);
+    const supportedScheme = guessSupportedScheme(keySystem);
 
     // Filter the application's configurations based on our guess of what
     // encryption scheme is supported.
@@ -257,6 +211,175 @@ class EmeEncryptionSchemePolyfill {
 }
 
 /**
+ * A polyfill to add support for EncryptionScheme queries in MediaCapabilities.
+ *
+ * Because this polyfill can't know what schemes the UA or CDM actually support,
+ * it assumes support for the historically-supported schemes of each well-known
+ * key system.
+ *
+ * In source form, this is compatible with the Closure Compiler, CommonJS, and
+ * AMD module formats.  It can also be directly included via a script tag.
+ *
+ * The minified bundle is a standalone module compatible with the CommonJS and
+ * AMD module formats, and can also be directly included via a script tag.
+ *
+ * @see https://wicg.github.io/encrypted-media-encryption-scheme/
+ * @see https://github.com/w3c/encrypted-media/pull/457
+ * @export
+ */
+class McEncryptionSchemePolyfill {
+  /**
+   * Installs the polyfill.  To avoid the possibility of extra user prompts,
+   * this will shim MC so long as it exists, without checking support for
+   * encryptionScheme upfront.  The support check will happen on-demand the
+   * first time MC is used.
+   *
+   * @export
+   */
+  static install() {
+    if (!navigator.mediaCapabilities) {
+      console.debug('McEncryptionSchemePolyfill: MediaCapabilities not found');
+      // No MediaCapabilities.
+      return;
+    }
+
+    // Save the original.
+    McEncryptionSchemePolyfill.originalDecodingInfo_ =
+        navigator.mediaCapabilities.decodingInfo;
+
+    // Patch in a method which will check for support on the first call.
+    console.debug('McEncryptionSchemePolyfill: ' +
+        'Waiting to detect encryptionScheme support.');
+    navigator.mediaCapabilities.decodingInfo =
+        McEncryptionSchemePolyfill.probeDecodingInfo_;
+  }
+
+  /**
+   * A shim for mediaCapabilities.decodingInfo to check for encryptionScheme
+   * support.  Only used until we know if the browser has native support for the
+   * encryptionScheme field.
+   *
+   * @this {MediaCapabilities}
+   * @param {!MediaDecodingConfiguration} requestedConfiguration The requested
+   *   decoding configuration.
+   * @return {!Promise.<!MediaCapabilitiesDecodingInfo>} A Promise to a result
+   *   describing the capabilities of the browser in the request configuration.
+   * @private
+   */
+  static async probeDecodingInfo_(requestedConfiguration) {
+    console.assert(this == navigator.mediaCapabilities,
+        'bad "this" for decodingInfo');
+
+    // Call the original version.  If the call succeeds, we look at the result
+    // to decide if the encryptionScheme field is supported or not.
+    const capabilities =
+        await McEncryptionSchemePolyfill.originalDecodingInfo_.call(
+            this, requestedConfiguration);
+
+    if (!requestedConfiguration.keySystemConfiguration) {
+      // This was not a query regarding encrypted content.  The results are
+      // valid, but won't tell us anything about native support for
+      // encryptionScheme.  Just return the results.
+      return capabilities;
+    }
+
+    const mediaKeySystemAccess = capabilities.keySystemAccess;
+
+    if (hasEncryptionScheme(mediaKeySystemAccess)) {
+      // The browser supports the encryptionScheme field!
+      // No need for a patch.  Revert back to the original implementation.
+      console.debug('McEncryptionSchemePolyfill: ' +
+          'Native encryptionScheme support found.');
+      // eslint-disable-next-line require-atomic-updates
+      navigator.mediaCapabilities.decodingInfo =
+          McEncryptionSchemePolyfill.originalDecodingInfo_;
+      // Return the results, which are completely valid.
+      return capabilities;
+    }
+
+    // If we land here, the browser does _not_ support the encryptionScheme
+    // field.  So we install another patch to check the encryptionScheme field
+    // in future calls.
+    console.debug('McEncryptionSchemePolyfill: ' +
+        'No native encryptionScheme support found. '+
+        'Patching encryptionScheme support.');
+    // eslint-disable-next-line require-atomic-updates
+    navigator.mediaCapabilities.decodingInfo =
+        McEncryptionSchemePolyfill.polyfillDecodingInfo_;
+
+    // The results we have may not be valid.  Run the query again through our
+    // polyfill.
+    return McEncryptionSchemePolyfill.polyfillDecodingInfo_.call(
+        this, requestedConfiguration);
+  }
+
+  /**
+   * A polyfill for mediaCapabilities.decodingInfo to handle the
+   * encryptionScheme field in browsers that don't support it.  It uses the
+   * user-agent string to guess what encryption schemes are supported, then
+   * those guesses are used to reject unsupported schemes.
+   *
+   * @this {MediaCapabilities}
+   * @param {!MediaDecodingConfiguration} requestedConfiguration The requested
+   *   decoding configuration.
+   * @return {!Promise.<!MediaCapabilitiesDecodingInfo>} A Promise to a result
+   *   describing the capabilities of the browser in the request configuration.
+   * @private
+   */
+  static async polyfillDecodingInfo_(requestedConfiguration) {
+    console.assert(this == navigator.mediaCapabilities,
+        'bad "this" for decodingInfo');
+
+    let supportedScheme = null;
+
+    if (requestedConfiguration.keySystemConfiguration) {
+      const keySystemConfig = requestedConfiguration.keySystemConfiguration;
+
+      const keySystem = keySystemConfig.keySystem;
+
+      const audioScheme = keySystemConfig.audio &&
+          keySystemConfig.audio.encryptionScheme;
+      const videoScheme = keySystemConfig.video &&
+          keySystemConfig.video.encryptionScheme;
+
+      supportedScheme = guessSupportedScheme(keySystem);
+
+      const notSupportedResult = {
+        powerEfficient: false,
+        smooth: false,
+        supported: false,
+        keySystemAccess: null,
+        configuration: requestedConfiguration,
+      };
+
+      if (audioScheme && audioScheme != supportedScheme) {
+        return notSupportedResult;
+      }
+      if (videoScheme && videoScheme != supportedScheme) {
+        return notSupportedResult;
+      }
+    }
+
+    // At this point, either it's unencrypted or we assume the encryption scheme
+    // is supported.  So delegate to the original decodingInfo() method.
+    const capabilities =
+        await McEncryptionSchemePolyfill.originalDecodingInfo_.call(
+            this, requestedConfiguration);
+
+    if (capabilities.keySystemAccess) {
+      // If the result is supported and encrypted, this will be a
+      // MediaKeySystemAccess instance.  Wrap the MKSA object in ours to provide
+      // the missing field in the returned configuration.
+      capabilities.keySystemAccess =
+          new EmeEncryptionSchemePolyfillMediaKeySystemAccess(
+              capabilities.keySystemAccess, supportedScheme);
+    }
+
+    return capabilities;
+  }
+}
+
+/**
  * A wrapper around MediaKeySystemAccess that adds encryptionScheme
  *   fields to the configuration, to emulate what a browser with native support
  *   for this field would do.
@@ -316,6 +439,62 @@ class EmeEncryptionSchemePolyfillMediaKeySystemAccess {
 }
 
 /**
+ * Guess the supported encryption scheme for the key system.
+ *
+ * @param {string} keySystem The key system ID.
+ * @return {?string} A guess at the encryption scheme this key system
+ *   supports.
+ */
+function guessSupportedScheme(keySystem) {
+  if (keySystem.startsWith('com.widevine')) {
+    return 'cenc';
+  } else if (keySystem.startsWith('com.microsoft')) {
+    return 'cenc';
+  } else if (keySystem.startsWith('com.adobe')) {
+    return 'cenc';
+  } else if (keySystem.startsWith('org.w3')) {
+    return 'cenc';
+  } else if (keySystem.startsWith('com.apple')) {
+    return 'cbcs-1-9';
+  }
+
+  // We don't have this key system in our map!
+
+  // Log a warning.  The only way the request will succeed now is if the
+  // app doesn't specify an encryption scheme in their own configs.
+  // Use bracket notation to keep this from being stripped from the build.
+  console['warn']('EmeEncryptionSchemePolyfill: Unknown key system:',
+      keySystem, 'Please contribute!');
+
+  return null;
+}
+
+/**
+ * @param {?MediaKeySystemAccess} mediaKeySystemAccess A native
+ *   MediaKeySystemAccess instance from the browser.
+ * @return {boolean} True if browser natively supports encryptionScheme.
+ */
+function hasEncryptionScheme(mediaKeySystemAccess) {
+  const configuration = mediaKeySystemAccess.getConfiguration();
+
+  // It doesn't matter which capability we look at.  For this check, they
+  // should all produce the same result.
+  const firstVideoCapability =
+      configuration.videoCapabilities && configuration.videoCapabilities[0];
+  const firstAudioCapability =
+      configuration.audioCapabilities && configuration.audioCapabilities[0];
+  const firstCapability = firstVideoCapability || firstAudioCapability;
+
+  // If supported by the browser, the encryptionScheme field must appear in
+  // the returned configuration, regardless of whether or not it was
+  // specified in the supportedConfigurations given by the application.
+  if (firstCapability['encryptionScheme'] !== undefined) {
+    return true;
+  }
+  return false;
+}
+
+/**
  * The original requestMediaKeySystemAccess, before we patched it.
  *
  * @type {
@@ -328,10 +507,39 @@ class EmeEncryptionSchemePolyfillMediaKeySystemAccess {
  */
 EmeEncryptionSchemePolyfill.originalRMKSA_;
 
+/**
+ * The original decodingInfo, before we patched it.
+ *
+ * @type {
+ *   function(this:MediaCapabilities,
+ *     !MediaDecodingConfiguration
+ *   ):!Promise.<!MediaCapabilitiesDecodingInfo>
+ * }
+ * @private
+ */
+McEncryptionSchemePolyfill.originalDecodingInfo_;
+
+/**
+ * A single entry point for both polyfills (EME & MC).
+ *
+ * @export
+ */
+class EncryptionSchemePolyfills {
+  /**
+   * Installs both polyfills (EME & MC).
+   *
+   * @export
+   */
+  static install() {
+    EmeEncryptionSchemePolyfill.install();
+    McEncryptionSchemePolyfill.install();
+  }
+}
+
 // Support for CommonJS and AMD module formats.
 /** @suppress {undefinedVars} */
 (() => {
   if (typeof module !== 'undefined' && module.exports) {
-    module.exports = EmeEncryptionSchemePolyfill;
+    module.exports = EncryptionSchemePolyfills;
   }
 })();

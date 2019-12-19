@@ -1,7 +1,7 @@
 {
   "name": "eme-encryption-scheme-polyfill",
   "description": "A polyfill for the encryptionScheme field in EME",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "license": "Apache-2.0",
   "author": "Google",
   "homepage": "https://github.com/google/eme-encryption-scheme-polyfill#readme",
@@ -17,7 +17,7 @@
   "scripts": {
     "lint": "eslint index.js",
     "closure-compiler-check": "google-closure-compiler -O ADVANCED --generate_exports --js_output_file /dev/null --jscomp_error '*' closure-compiler-check/* index.js",
-    "build": "browserify index.js -s EmeEncryptionSchemePolyfill -t babelify -t stripify -p tinyify -p browserify-header -o dist/eme-encryption-scheme-polyfill.js",
+    "build": "browserify index.js -s EncryptionSchemePolyfills -t babelify -t stripify -p tinyify -p browserify-header -o dist/eme-encryption-scheme-polyfill.js",
     "prepublishOnly": "npm run-script lint && npm run-script closure-compiler-check && npm run-script build"
   },
   "devDependencies": {

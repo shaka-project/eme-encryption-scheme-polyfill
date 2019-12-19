@@ -23,7 +23,9 @@
 
     <!-- Load & install the polyfill. -->
     <script src="../dist/eme-encryption-scheme-polyfill.js"></script>
-    <script>EmeEncryptionSchemePolyfill.install();</script>
+    <script>
+      EncryptionSchemePolyfills.install();
+    </script>
 
     <!-- Load web components used in the demo. -->
     <script type="module" src="https://cdn.jsdelivr.net/npm/elix@^9/define/AutoCompleteComboBox.js"></script>
@@ -39,8 +41,8 @@
     <h2>Test query</h2>
     <div class="description">
       Choose parameters like key system, encryption scheme, and media types,
-      then click the "run" button to see the results of the query with the
-      polyfill.
+      then click one of the "run" button to see the results of the query with
+      the polyfill.
     </div>
 
     <div>
@@ -85,14 +87,14 @@
     </div>
 
     <div>
-      <button id="emeRun">Run</button>
+      <button id="emeRun">Run EME query</button>
+      <button id="mcRun">Run MC query</button>
     </div>
 
     <div>
       <label for="results">Results:</label>
       <div id="results"></div>
     </div>
-
 
     <div class="divider"></div>
 
