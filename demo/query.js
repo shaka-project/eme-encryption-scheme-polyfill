@@ -105,15 +105,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
       const result = await navigator.mediaCapabilities.decodingInfo(config);
-      results.textContent = formatObjectToString(result);
+      window.results.textContent = formatObjectToString(result);
 
       const mksa = result.keySystemAccess;
       if (mksa) {
-        results.textContent += '\n' +
+        window.results.textContent += '\n' +
             formatObjectToString(mksa.getConfiguration());
       }
     } catch (error) {
-      results.textContent = formatObjectToString({error: error.message});
+      window.results.textContent = formatObjectToString({error: error.message});
     }
   });  // mcRun click listener
 });  // DOMContentLoaded listener
