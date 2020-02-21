@@ -1,3 +1,9 @@
+## 2.0.1 (2020-02-21)
+
+Bugfixes:
+  - Fix exception thrown on some legacy Edge versions
+
+
 ## 2.0.0 (2019-12-12)
 
 Features:
