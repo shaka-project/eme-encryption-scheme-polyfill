@@ -237,6 +237,10 @@ class McEncryptionSchemePolyfill {
    * @export
    */
   static install() {
+    if (McEncryptionSchemePolyfill.originalDecodingInfo_) {
+      console.debug('McEncryptionSchemePolyfill: Already installed.');
+      return;
+    }
     if (!navigator.mediaCapabilities) {
       console.debug('McEncryptionSchemePolyfill: MediaCapabilities not found');
       // No MediaCapabilities.
