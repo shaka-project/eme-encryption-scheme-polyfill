@@ -479,6 +479,9 @@ function guessSupportedScheme(keySystem) {
  * @return {boolean} True if browser natively supports encryptionScheme.
  */
 function hasEncryptionScheme(mediaKeySystemAccess) {
+  if (!mediaKeySystemAccess) {
+    return false;
+  }
   const configuration = mediaKeySystemAccess.getConfiguration();
 
   // It doesn't matter which capability we look at.  For this check, they
