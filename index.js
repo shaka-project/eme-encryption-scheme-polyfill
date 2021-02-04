@@ -280,7 +280,8 @@ class McEncryptionSchemePolyfill {
         await McEncryptionSchemePolyfill.originalDecodingInfo_.call(
             this, requestedConfiguration);
 
-    if (!requestedConfiguration.keySystemConfiguration) {
+    if (!requestedConfiguration.keySystemConfiguration ||
+        capabilities.keySystemAccess) {
       // This was not a query regarding encrypted content.  The results are
       // valid, but won't tell us anything about native support for
       // encryptionScheme.  Just return the results.
@@ -479,9 +480,6 @@ function guessSupportedScheme(keySystem) {
  * @return {boolean} True if browser natively supports encryptionScheme.
  */
 function hasEncryptionScheme(mediaKeySystemAccess) {
-  if (!mediaKeySystemAccess) {
-    return false;
-  }
   const configuration = mediaKeySystemAccess.getConfiguration();
 
   // It doesn't matter which capability we look at.  For this check, they
