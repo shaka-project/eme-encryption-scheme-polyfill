@@ -281,7 +281,7 @@ class McEncryptionSchemePolyfill {
             this, requestedConfiguration);
 
     if (!requestedConfiguration.keySystemConfiguration ||
-        capabilities.keySystemAccess) {
+        !capabilities.keySystemAccess) {
       // This was not a query regarding encrypted content.  The results are
       // valid, but won't tell us anything about native support for
       // encryptionScheme.  Just return the results.
