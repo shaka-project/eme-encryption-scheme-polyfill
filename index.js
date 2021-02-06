@@ -237,6 +237,10 @@ class McEncryptionSchemePolyfill {
    * @export
    */
   static install() {
+    if (McEncryptionSchemePolyfill.originalDecodingInfo_) {
+      console.debug('McEncryptionSchemePolyfill: Already installed.');
+      return;
+    }
     if (!navigator.mediaCapabilities) {
       console.debug('McEncryptionSchemePolyfill: MediaCapabilities not found');
       // No MediaCapabilities.
@@ -276,7 +280,8 @@ class McEncryptionSchemePolyfill {
         await McEncryptionSchemePolyfill.originalDecodingInfo_.call(
             this, requestedConfiguration);
 
-    if (!requestedConfiguration.keySystemConfiguration) {
+    if (!requestedConfiguration.keySystemConfiguration ||
+        !capabilities.keySystemAccess) {
       // This was not a query regarding encrypted content.  The results are
       // valid, but won't tell us anything about native support for
       // encryptionScheme.  Just return the results.
