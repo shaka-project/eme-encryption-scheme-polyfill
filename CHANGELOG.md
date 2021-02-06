@@ -1,3 +1,11 @@
+## 2.0.2 (2021-02-05)
+
+Bugfixes:
+  - Fix infinite recursion when the MCap part of the polyfill is installed
+    twice.
+  - Fix exception when MCap returns a supported==false on encrypted content.
+
+
 ## 2.0.1 (2020-02-21)
 
 Bugfixes:
