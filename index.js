@@ -280,8 +280,7 @@ class McEncryptionSchemePolyfill {
         await McEncryptionSchemePolyfill.originalDecodingInfo_.call(
             this, requestedConfiguration);
 
-    if (!requestedConfiguration.keySystemConfiguration ||
-        !capabilities.keySystemAccess) {
+    if (!requestedConfiguration.keySystemConfiguration) {
       // This was not a query regarding encrypted content.  The results are
       // valid, but won't tell us anything about native support for
       // encryptionScheme.  Just return the results.
@@ -290,7 +289,7 @@ class McEncryptionSchemePolyfill {
 
     const mediaKeySystemAccess = capabilities.keySystemAccess;
 
-    if (hasEncryptionScheme(mediaKeySystemAccess)) {
+    if (mediaKeySystemAccess && hasEncryptionScheme(mediaKeySystemAccess)) {
       // The browser supports the encryptionScheme field!
       // No need for a patch.  Revert back to the original implementation.
       console.debug('McEncryptionSchemePolyfill: ' +
@@ -302,9 +301,9 @@ class McEncryptionSchemePolyfill {
       return capabilities;
     }
 
-    // If we land here, the browser does _not_ support the encryptionScheme
-    // field.  So we install another patch to check the encryptionScheme field
-    // in future calls.
+    // If we land here, the browser does _not_ support the mediaKeySystemAccess
+    // field or the encryptionScheme field.  So we install another patch to
+    // check the mediaKeySystemAccess or encryptionScheme field in future calls.
     console.debug('McEncryptionSchemePolyfill: ' +
         'No native encryptionScheme support found. '+
         'Patching encryptionScheme support.');
@@ -378,9 +377,66 @@ class McEncryptionSchemePolyfill {
       capabilities.keySystemAccess =
           new EmeEncryptionSchemePolyfillMediaKeySystemAccess(
               capabilities.keySystemAccess, supportedScheme);
+    } else if (requestedConfiguration.keySystemConfiguration) {
+      const mediaKeySystemConfig =
+          McEncryptionSchemePolyfill.convertToMediaKeySystemConfig_(
+              requestedConfiguration);
+      capabilities.keySystemAccess =
+          await navigator.requestMediaKeySystemAccess(
+              requestedConfiguration.keySystemConfiguration.keySystem,
+              [mediaKeySystemConfig]);
     }
 
     return capabilities;
+  }
+
+  /**
+   * Convert the MediaDecodingConfiguration object to a
+   * MediaKeySystemConfiguration object.
+   * @param {!MediaDecodingConfiguration} decodingConfig
+   * @return {!MediaKeySystemConfiguration}
+   */
+  static convertToMediaKeySystemConfig_(decodingConfig) {
+    const mediaCapKeySystemConfig = decodingConfig.keySystemConfiguration;
+    const audioCapabilities = [];
+    const videoCapabilities = [];
+
+    if (mediaCapKeySystemConfig.audio) {
+      const capability = {
+        robustness: mediaCapKeySystemConfig.audio.robustness || '',
+        contentType: decodingConfig.audio.contentType,
+      };
+      audioCapabilities.push(capability);
+    }
+
+    if (mediaCapKeySystemConfig.video) {
+      const capability = {
+        robustness: mediaCapKeySystemConfig.video.robustness || '',
+        contentType: decodingConfig.video.contentType,
+      };
+      videoCapabilities.push(capability);
+    }
+
+    const initDataTypes = mediaCapKeySystemConfig.initDataType ?
+        [mediaCapKeySystemConfig.initDataType] : [];
+
+    /** @type {!MediaKeySystemConfiguration} */
+    const mediaKeySystemConfig = {
+      initDataTypes: initDataTypes,
+      distinctiveIdentifier: mediaCapKeySystemConfig.distinctiveIdentifier,
+      persistentState: mediaCapKeySystemConfig.persistentState,
+      sessionTypes: mediaCapKeySystemConfig.sessionTypes,
+    };
+
+    // Only add the audio video capablities if they have valid data.
+    // Otherwise the query will fail.
+    if (audioCapabilities.length) {
+      mediaKeySystemConfig.audioCapabilities = audioCapabilities;
+    }
+    if (videoCapabilities.length) {
+      mediaKeySystemConfig.videoCapabilities = videoCapabilities;
+    }
+    return mediaKeySystemConfig;
   }
 }
 
