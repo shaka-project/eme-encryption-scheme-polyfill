@@ -311,17 +311,6 @@ class McEncryptionSchemePolyfill {
     navigator.mediaCapabilities.decodingInfo =
         McEncryptionSchemePolyfill.polyfillDecodingInfo_;
 
-    if (!mediaKeySystemAccess) {
-      const mediaKeySystemConfig =
-          McEncryptionSchemePolyfill.convertToMediaKeySystemConfig_(
-              requestedConfiguration);
-      capabilities.keySystemAccess =
-          await navigator.requestMediaKeySystemAccess(
-              requestedConfiguration.keySystemConfiguration.keySystem,
-              [mediaKeySystemConfig]);
-      return capabilities;
-    }
-
     // The results we have may not be valid.  Run the query again through our
     // polyfill.
     return McEncryptionSchemePolyfill.polyfillDecodingInfo_.call(
@@ -408,32 +397,36 @@ class McEncryptionSchemePolyfill {
    * @return {!MediaKeySystemConfiguration}
    */
   static convertToMediaKeySystemConfig_(decodingConfig) {
-    const mediaCapkeySystemConfig = decodingConfig.keySystemConfiguration;
+    const mediaCapKeySystemConfig = decodingConfig.keySystemConfiguration;
     const audioCapabilities = [];
     const videoCapabilities = [];
 
-    if (mediaCapkeySystemConfig.audio) {
+    if (mediaCapKeySystemConfig.audio) {
       const capability = {
-        robustness: mediaCapkeySystemConfig.audio.robustness || '',
+        robustness: mediaCapKeySystemConfig.audio.robustness || '',
         contentType: decodingConfig.audio.contentType,
       };
       audioCapabilities.push(capability);
     }
 
-    if (mediaCapkeySystemConfig.video) {
+    if (mediaCapKeySystemConfig.video) {
       const capability = {
-        robustness: mediaCapkeySystemConfig.video.robustness || '',
+        robustness: mediaCapKeySystemConfig.video.robustness || '',
         contentType: decodingConfig.video.contentType,
       };
       videoCapabilities.push(capability);
     }
 
+    const mediaCapInitDataType = mediaCapKeySystemConfig.initDataType;
+    const initDataTypes = mediaCapInitDataType && mediaCapInitDataType.length :
+        [mediaCapInitDataType] ? [];
+
     /** @type {!MediaKeySystemConfiguration} */
     const mediaKeySystemConfig = {
-      initDataTypes: [mediaCapkeySystemConfig.initDataType],
-      distinctiveIdentifier: mediaCapkeySystemConfig.distinctiveIdentifier,
-      persistentState: mediaCapkeySystemConfig.persistentState,
-      sessionTypes: mediaCapkeySystemConfig.sessionTypes,
+      initDataTypes: initDataTypes,
+      distinctiveIdentifier: mediaCapKeySystemConfig.distinctiveIdentifier,
+      persistentState: mediaCapKeySystemConfig.persistentState,
+      sessionTypes: mediaCapKeySystemConfig.sessionTypes,
     };
 
     // Only add the audio video capablities if they have valid data.
