@@ -1,3 +1,10 @@
+## 2.0.3 (2021-04-19)
+
+Bugfixes:
+  - Fix MCap polyfill for browsers that support MCap but not the
+    encryption-related parts of the MCap API.
+
+
 ## 2.0.2 (2021-02-05)
 
 Bugfixes:
