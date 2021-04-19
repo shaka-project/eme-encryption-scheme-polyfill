@@ -418,8 +418,8 @@ class McEncryptionSchemePolyfill {
     }
 
     const mediaCapInitDataType = mediaCapKeySystemConfig.initDataType;
-    const initDataTypes = mediaCapInitDataType && mediaCapInitDataType.length :
-        [mediaCapInitDataType] ? [];
+    const initDataTypes = mediaCapInitDataType && mediaCapInitDataType.length ?
+        [mediaCapInitDataType] : [];
 
     /** @type {!MediaKeySystemConfiguration} */
     const mediaKeySystemConfig = {
