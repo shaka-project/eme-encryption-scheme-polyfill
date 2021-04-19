@@ -417,9 +417,8 @@ class McEncryptionSchemePolyfill {
       videoCapabilities.push(capability);
     }
 
-    const mediaCapInitDataType = mediaCapKeySystemConfig.initDataType;
-    const initDataTypes = mediaCapInitDataType && mediaCapInitDataType.length ?
-        [mediaCapInitDataType] : [];
+    const initDataTypes = mediaCapKeySystemConfig.initDataType ?
+        [mediaCapKeySystemConfig.initDataType] : [];
 
     /** @type {!MediaKeySystemConfiguration} */
     const mediaKeySystemConfig = {
