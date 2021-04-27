@@ -311,6 +311,13 @@ class McEncryptionSchemePolyfill {
     navigator.mediaCapabilities.decodingInfo =
         McEncryptionSchemePolyfill.polyfillDecodingInfo_;
 
+    if (!mediaKeySystemAccess) {
+      capabilities.keySystemAccess =
+          await McEncryptionSchemePolyfill.getMediaKeySystemAccess_(
+              requestedConfiguration);
+      return capabilities;
+    }
+
     // The results we have may not be valid.  Run the query again through our
     // polyfill.
     return McEncryptionSchemePolyfill.polyfillDecodingInfo_.call(
@@ -378,16 +385,31 @@ class McEncryptionSchemePolyfill {
           new EmeEncryptionSchemePolyfillMediaKeySystemAccess(
               capabilities.keySystemAccess, supportedScheme);
     } else if (requestedConfiguration.keySystemConfiguration) {
-      const mediaKeySystemConfig =
-          McEncryptionSchemePolyfill.convertToMediaKeySystemConfig_(
-              requestedConfiguration);
+      // If the result is supported and the content is encrypted, we should have
+      // a MediaKeySystemAccess instance as part of the result.
       capabilities.keySystemAccess =
-          await navigator.requestMediaKeySystemAccess(
-              requestedConfiguration.keySystemConfiguration.keySystem,
-              [mediaKeySystemConfig]);
+          await McEncryptionSchemePolyfill.getMediaKeySystemAccess_(
+              requestedConfiguration);
     }
 
     return capabilities;
+  }
+
+  /**
+   * Call navigator.requestMediaKeySystemAccess to get the MediaKeySystemAccess
+   * information.
+   * @param {!MediaDecodingConfiguration} requestedConfiguration The requested
+   * decoding configuration.
+   */
+  static async getMediaKeySystemAccess_(requestedConfiguration) {
+    const mediaKeySystemConfig =
+          McEncryptionSchemePolyfill.convertToMediaKeySystemConfig_(
+              requestedConfiguration);
+    const keySystemAccess =
+          await navigator.requestMediaKeySystemAccess(
+              requestedConfiguration.keySystemConfiguration.keySystem,
+              [mediaKeySystemConfig]);
+    return keySystemAccess;
   }
 
   /**
