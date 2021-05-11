@@ -17,8 +17,9 @@ the CommonJS module format.  It can also be directly included via a script tag.
 
 The minified bundle (`dist/eme-encryption-scheme-polyfill.js`) is a standalone
 module compatible with the CommonJS and AMD module formats, and can also be
-directly included via a script tag.  It is about 4.4kB uncompressed, and gzips
-to about 1.5kB.
+directly included via a script tag.
+
+The v2.0.3 build is about 5.3kB uncompressed, and gzips to about 1.7kB.
 
 To avoid the possibility of extra user prompts, this will shim EME & MC so long
 as they exist, without checking support for `encryptionScheme` upfront.  The
