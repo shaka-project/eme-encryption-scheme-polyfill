@@ -393,8 +393,11 @@ class McEncryptionSchemePolyfill {
   /**
    * Convert the MediaDecodingConfiguration object to a
    * MediaKeySystemConfiguration object.
-   * @param {!MediaDecodingConfiguration} decodingConfig
-   * @return {!MediaKeySystemConfiguration}
+   *
+   * @param {!MediaDecodingConfiguration} decodingConfig The decoding
+   *   configuration.
+   * @return {!MediaKeySystemConfiguration} The converted MediaKeys
+   *   configuration.
    */
   static convertToMediaKeySystemConfig_(decodingConfig) {
     const mediaCapKeySystemConfig = decodingConfig.keySystemConfiguration;

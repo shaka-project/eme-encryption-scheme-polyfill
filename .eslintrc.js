@@ -61,6 +61,10 @@ module.exports = {
         ],
       },
     ],
+    'jsdoc/valid-types': 'error',
+    'jsdoc/newline-after-description': 'error',
+    'jsdoc/require-param-description': 'error',
+    'jsdoc/require-returns-description': 'error',
 
     // Allow the special "/*!" header format used by browserify-header:
     'spaced-comment': [
