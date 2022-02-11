@@ -1,0 +1,42 @@
+on:
+  push:
+    branches:
+      - main
+
+name: release-please
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      # Create/update release PR
+      - uses: google-github-actions/release-please-action@v3
+        id: release
+        with:
+          release-type: node
+
+      # The logic below handles npm publication.  Each step is conditional on a
+      # release having been created by someone merging the release PR.
+      - uses: actions/checkout@v2
+        if: ${{ steps.release.outputs.release_created }}
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: 'https://registry.npmjs.org'
+        if: ${{ steps.release.outputs.release_created }}
+      - run: npm ci
+        if: ${{ steps.release.outputs.release_created }}
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+        if: ${{ steps.release.outputs.release_created }}
+      - run: npm pack
+        if: ${{ steps.release.outputs.release_created }}
+      - uses: svenstaro/upload-release-action@483c1e56f95e88835747b1c7c60581215016cbf2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ steps.release.outputs.tag_name }}
+          file: eme-encryption-scheme-polyfill-*.tgz
+          file_glob: true
+          overwrite: true
+        if: ${{ steps.release.outputs.release_created }}
