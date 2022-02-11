@@ -30,7 +30,7 @@
     "eslint": "^8.8.0",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-jsdoc": "^37.8.2",
-    "google-closure-compiler": "^20200101.0.0",
+    "google-closure-compiler": "^20220202.0.0",
     "stripify": "^6.0.0",
     "tinyify": "^2.5.2"
   },

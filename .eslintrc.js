@@ -56,6 +56,7 @@ module.exports = {
           'MediaCapabilities',
           'MediaCapabilitiesDecodingInfo',
           'MediaDecodingConfiguration',
+          'MediaKeys',
           'MediaKeySystemConfiguration',
           'MediaKeySystemMediaCapability',
         ],

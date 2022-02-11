@@ -475,7 +475,11 @@ class EmeEncryptionSchemePolyfillMediaKeySystemAccess {
     this.keySystem = mksa.keySystem;
   }
 
-  /** @override */
+  /**
+   * @override
+   * @return {!MediaKeySystemConfiguration} A MediaKeys config with
+   *   encryptionScheme fields added
+   */
   getConfiguration() {
     // A browser which supports the encryptionScheme field would always return
     // that field in the resulting configuration.  So here, we emulate that.
@@ -496,7 +500,10 @@ class EmeEncryptionSchemePolyfillMediaKeySystemAccess {
     return configuration;
   }
 
-  /** @override */
+  /**
+   * @override
+   * @return {!Promise<!MediaKeys>} A passthru of the native MediaKeys object
+   */
   createMediaKeys() {
     return this.mksa_.createMediaKeys();
   }
