@@ -1,0 +1,25 @@
+name: Test PRs
+
+on:
+  pull_request: # Trigger for pull requests.
+    types: [opened, synchronize, reopened]
+  workflow_dispatch: # Allows for manual triggering.
+    inputs:
+      ref:
+        description: "The ref to build and test."
+        required: False
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.ref || github.ref }}
+
+      - name: Test
+        run: |
+          npm ci
+          npm test
