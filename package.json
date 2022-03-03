@@ -4,7 +4,7 @@
   "version": "2.0.3",
   "license": "Apache-2.0",
   "author": "Google",
-  "homepage": "https://github.com/google/eme-encryption-scheme-polyfill#readme",
+  "homepage": "https://github.com/shaka-project/eme-encryption-scheme-polyfill#readme",
   "maintainers": [
     {
       "name": "Joey Parrish",
@@ -12,7 +12,7 @@
     }
   ],
   "bugs": {
-    "url": "https://github.com/google/eme-encryption-scheme-polyfill/issues"
+    "url": "https://github.com/shaka-project/eme-encryption-scheme-polyfill/issues"
   },
   "scripts": {
     "test": "npm run lint && npm run closure-compiler-check && npm run build",
@@ -41,7 +41,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/google/eme-encryption-scheme-polyfill.git"
+    "url": "git+https://github.com/shaka-project/eme-encryption-scheme-polyfill.git"
   },
   "keywords": [
     "EME",

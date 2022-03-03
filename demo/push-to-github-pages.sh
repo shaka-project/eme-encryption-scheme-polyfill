@@ -17,8 +17,8 @@
 set -e  # Exit with nonzero exit code if anything fails
 set -x  # Show the commands being run
 
-REPO=git@github.com:google/eme-encryption-scheme-polyfill.git
-SOURCE_BRANCH=master
+REPO=git@github.com:shaka-project/eme-encryption-scheme-polyfill.git
+SOURCE_BRANCH=main
 TARGET_BRANCH=gh-pages
 
 

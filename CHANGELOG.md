@@ -50,7 +50,7 @@ Bugfixes:
 
 Features:
   - Added a demo / manual testing page
-    - https://google.github.io/eme-encryption-scheme-polyfill/demo/
+    - https://shaka-project.github.io/eme-encryption-scheme-polyfill/demo/
 
 
 ## 1.0.0 (2019-11-18)

@@ -4,7 +4,7 @@ A polyfill to add support for EncryptionScheme queries in EME and
 MediaCapabilities.
 
  - https://wicg.github.io/encrypted-media-encryption-scheme/
- - https://google.github.io/eme-encryption-scheme-polyfill/demo/
+ - https://shaka-project.github.io/eme-encryption-scheme-polyfill/demo/
  - https://github.com/WICG/encrypted-media-encryption-scheme/issues/13
  - https://github.com/w3c/media-capabilities/issues/100
 
