@@ -1,6 +1,13 @@
 # Changelog
 
 
+### [2.0.4](https://github.com/shaka-project/eme-encryption-scheme-polyfill/compare/v2.0.3...v2.0.4) (2022-03-04)
+
+
+### Bug Fixes
+
+* **deps:** Update all dependencies ([#32](https://github.com/shaka-project/eme-encryption-scheme-polyfill/issues/32)) ([761dece](https://github.com/shaka-project/eme-encryption-scheme-polyfill/commit/761deceb36e28063ebf25077af10fea9a848901e))
+
 ## 2.0.3 (2021-04-19)
 
 Bugfixes:
