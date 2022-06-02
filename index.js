@@ -398,8 +398,11 @@ class McEncryptionSchemePolyfill {
   /**
    * Call navigator.requestMediaKeySystemAccess to get the MediaKeySystemAccess
    * information.
+   *
    * @param {!MediaDecodingConfiguration} requestedConfiguration The requested
    *   decoding configuration.
+   * @return {!Promise.<!MediaKeySystemAccess>} A Promise to a
+   *   MediaKeySystemAccess instance.
    * @private
    */
   static async getMediaKeySystemAccess_(requestedConfiguration) {
