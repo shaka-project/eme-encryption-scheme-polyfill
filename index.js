@@ -399,7 +399,8 @@ class McEncryptionSchemePolyfill {
    * Call navigator.requestMediaKeySystemAccess to get the MediaKeySystemAccess
    * information.
    * @param {!MediaDecodingConfiguration} requestedConfiguration The requested
-   * decoding configuration.
+   *   decoding configuration.
+   * @private
    */
   static async getMediaKeySystemAccess_(requestedConfiguration) {
     const mediaKeySystemConfig =
