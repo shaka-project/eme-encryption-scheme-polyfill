@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [2.0.5](https://github.com/shaka-project/eme-encryption-scheme-polyfill/compare/v2.0.4...v2.0.5) (2022-06-07)
+
+
+### Bug Fixes
+
+* Avoid duplicate calls to decodingInfo() ([#43](https://github.com/shaka-project/eme-encryption-scheme-polyfill/issues/43)) ([fafd1dd](https://github.com/shaka-project/eme-encryption-scheme-polyfill/commit/fafd1dd228e60f630274c77e28ed9ac7742d31cd))
+
 ### [2.0.4](https://github.com/shaka-project/eme-encryption-scheme-polyfill/compare/v2.0.3...v2.0.4) (2022-03-04)
 
 
