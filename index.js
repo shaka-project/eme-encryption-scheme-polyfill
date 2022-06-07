@@ -301,9 +301,12 @@ class McEncryptionSchemePolyfill {
       return capabilities;
     }
 
-    // If we land here, the browser does _not_ support the mediaKeySystemAccess
-    // field or the encryptionScheme field.  So we install another patch to
-    // check the mediaKeySystemAccess or encryptionScheme field in future calls.
+    // If we land here, either the browser does not support the
+    // encryptionScheme field, or the browser does not support EME-related
+    // fields in MCap _at all_.
+
+    // First, install a patch to check the mediaKeySystemAccess or
+    // encryptionScheme field in future calls.
     console.debug('McEncryptionSchemePolyfill: ' +
         'No native encryptionScheme support found. '+
         'Patching encryptionScheme support.');
@@ -311,6 +314,8 @@ class McEncryptionSchemePolyfill {
     navigator.mediaCapabilities.decodingInfo =
         McEncryptionSchemePolyfill.polyfillDecodingInfo_;
 
+    // Second, if _none_ of the EME-related fields of MCap are supported, fill
+    // them in now before returning the results.
     if (!mediaKeySystemAccess) {
       capabilities.keySystemAccess =
           await McEncryptionSchemePolyfill.getMediaKeySystemAccess_(
@@ -318,8 +323,9 @@ class McEncryptionSchemePolyfill {
       return capabilities;
     }
 
-    // The results we have may not be valid.  Run the query again through our
-    // polyfill.
+    // If we land here, it's only the encryption scheme field that is missing.
+    // The results we have may not be valid, since they didn't account for
+    // encryption scheme.  Run the query again through our polyfill.
     return McEncryptionSchemePolyfill.polyfillDecodingInfo_.call(
         this, requestedConfiguration);
   }
@@ -386,7 +392,8 @@ class McEncryptionSchemePolyfill {
               capabilities.keySystemAccess, supportedScheme);
     } else if (requestedConfiguration.keySystemConfiguration) {
       // If the result is supported and the content is encrypted, we should have
-      // a MediaKeySystemAccess instance as part of the result.
+      // a MediaKeySystemAccess instance as part of the result.  If we land
+      // here, the browser doesn't support the EME-related fields of MCap.
       capabilities.keySystemAccess =
           await McEncryptionSchemePolyfill.getMediaKeySystemAccess_(
               requestedConfiguration);
