@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [2.1.0](https://github.com/shaka-project/eme-encryption-scheme-polyfill/compare/v2.0.5...v2.1.0) (2022-07-22)
+
+
+### Features
+
+* Add support for Chromecast version of PlayReady ([#45](https://github.com/shaka-project/eme-encryption-scheme-polyfill/issues/45)) ([180f697](https://github.com/shaka-project/eme-encryption-scheme-polyfill/commit/180f697d5d65527360c9d9096770f7eb74152d62))
+
 ## [2.0.5](https://github.com/shaka-project/eme-encryption-scheme-polyfill/compare/v2.0.4...v2.0.5) (2022-06-07)
 
 
