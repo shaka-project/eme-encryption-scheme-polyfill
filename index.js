@@ -554,6 +554,8 @@ function guessSupportedScheme(keySystem) {
     return 'cenc';
   } else if (keySystem.startsWith('com.microsoft')) {
     return 'cenc';
+  } else if (keySystem.startsWith('com.chromecast')) {
+    return 'cenc';
   } else if (keySystem.startsWith('com.adobe')) {
     return 'cenc';
   } else if (keySystem.startsWith('org.w3')) {
