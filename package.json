@@ -18,7 +18,7 @@
     "test": "npm run lint && npm run closure-compiler-check && npm run build",
     "lint": "eslint index.js",
     "closure-compiler-check": "google-closure-compiler -O ADVANCED --generate_exports --js_output_file /dev/null --jscomp_error '*' closure-compiler-check/* index.js",
-    "build": "browserify index.js -s EncryptionSchemePolyfills -t babelify -t stripify -p tinyify -p browserify-header -o dist/eme-encryption-scheme-polyfill.js",
+    "build": "browserify index.js -s EncryptionSchemePolyfills -t [ babelify --presets [ @babel/preset-env ] ] -t stripify -p tinyify -p browserify-header -o dist/eme-encryption-scheme-polyfill.js",
     "prepublishOnly": "npm test"
   },
   "devDependencies": {
