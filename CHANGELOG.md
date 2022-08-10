@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [2.1.1](https://github.com/shaka-project/eme-encryption-scheme-polyfill/compare/v2.1.0...v2.1.1) (2022-08-10)
+
+
+### Bug Fixes
+
+* Fix ES6 transpilation ([#49](https://github.com/shaka-project/eme-encryption-scheme-polyfill/issues/49)) ([b170e12](https://github.com/shaka-project/eme-encryption-scheme-polyfill/commit/b170e12db57f772470eb98dbbb5327b1a03caabc)), closes [#48](https://github.com/shaka-project/eme-encryption-scheme-polyfill/issues/48)
+
 ## [2.1.0](https://github.com/shaka-project/eme-encryption-scheme-polyfill/compare/v2.0.5...v2.1.0) (2022-07-22)
 
 
