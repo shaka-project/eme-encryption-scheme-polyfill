@@ -561,7 +561,7 @@ function guessSupportedScheme(keySystem) {
   } else if (keySystem.startsWith('org.w3')) {
     return 'cenc';
   } else if (keySystem.startsWith('com.apple')) {
-    return 'cbcs-1-9';
+    return 'cbcs';
   }
 
   // We don't have this key system in our map!
