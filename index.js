@@ -202,10 +202,8 @@ class EmeEncryptionSchemePolyfill {
     }
 
     return capabilities.filter((capability) => {
-      // No specific scheme always works.  In addition, accept the specific
-      // scheme we guessed for this UA.
-      return !capability['encryptionScheme'] ||
-          capability['encryptionScheme'] == supportedScheme;
+      return checkSupportedScheme(
+          capability['encryptionScheme'], supportedScheme);
     });
   }
 }
@@ -369,10 +367,10 @@ class McEncryptionSchemePolyfill {
         configuration: requestedConfiguration,
       };
 
-      if (audioScheme && audioScheme != supportedScheme) {
+      if (audioScheme && !checkSupportedScheme(audioScheme, supportedScheme)) {
         return notSupportedResult;
       }
-      if (videoScheme && videoScheme != supportedScheme) {
+      if (videoScheme && !checkSupportedScheme(videoScheme, supportedScheme)) {
         return notSupportedResult;
       }
     }
@@ -598,6 +596,30 @@ function hasEncryptionScheme(mediaKeySystemAccess) {
     return true;
   }
   return false;
+}
+
+/**
+ * @param {?string} scheme Encryption scheme to check
+ * @param {?string} supportedScheme A guess at the encryption scheme this
+ *   supports.
+ * @return {boolean} True if the scheme is compatible.
+ */
+function checkSupportedScheme(scheme, supportedScheme) {
+  if (scheme && scheme != supportedScheme) {
+    if (scheme == 'cbcs') {
+      // Firefox supports CBCS since version 100, but does not yet implement
+      // encryptionScheme support.
+      if (parseInt(navigator.userAgent.split('Firefox/').pop(), 10) >= 100) {
+        return true;
+      }
+      // All Chromecast supports CBCS.
+      if (navigator.userAgent.includes('CrKey')) {
+        return true;
+      }
+    }
+    return false;
+  }
+  return true;
 }
 
 /**
