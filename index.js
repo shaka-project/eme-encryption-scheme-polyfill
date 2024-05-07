@@ -202,10 +202,8 @@ class EmeEncryptionSchemePolyfill {
     }
 
     return capabilities.filter((capability) => {
-      // No specific scheme always works.  In addition, accept the specific
-      // scheme we guessed for this UA.
-      return !capability['encryptionScheme'] ||
-          capability['encryptionScheme'] == supportedScheme;
+      return checkSupportedScheme(
+          capability['encryptionScheme'], supportedScheme);
     });
   }
 }
@@ -369,10 +367,10 @@ class McEncryptionSchemePolyfill {
         configuration: requestedConfiguration,
       };
 
-      if (audioScheme && audioScheme != supportedScheme) {
+      if (!checkSupportedScheme(audioScheme, supportedScheme)) {
         return notSupportedResult;
       }
-      if (videoScheme && videoScheme != supportedScheme) {
+      if (!checkSupportedScheme(videoScheme, supportedScheme)) {
         return notSupportedResult;
       }
     }
@@ -601,6 +599,35 @@ function hasEncryptionScheme(mediaKeySystemAccess) {
 }
 
 /**
+ * @param {(string|undefined)} scheme Encryption scheme to check
+ * @param {?string} supportedScheme A guess at the encryption scheme this
+ *   supports.
+ * @return {boolean} True if the scheme is compatible.
+ */
+function checkSupportedScheme(scheme, supportedScheme) {
+  if (!scheme) {
+    // Not encrypted = always supported
+    return true;
+  }
+
+  if (scheme == supportedScheme) {
+    // The assumed-supported legacy scheme for this platform.
+    return true;
+  }
+
+  if (scheme == 'cbcs' || scheme == 'cbcs-1-9') {
+    if (EncryptionSchemePolyfills.isRecentFirefox ||
+        EncryptionSchemePolyfills.isChromecast) {
+      // Firefox >= 100 supports CBCS, but doesn't support queries yet.
+      // Older Chromecast devices are assumed to support CBCS as well.
+      return true;
+    }
+  }
+
+  return false;
+}
+
+/**
  * The original requestMediaKeySystemAccess, before we patched it.
  *
  * @type {
@@ -641,6 +668,18 @@ class EncryptionSchemePolyfills {
     McEncryptionSchemePolyfill.install();
   }
 }
+
+/**
+ * @const {boolean}
+ */
+EncryptionSchemePolyfills.isChromecast =
+    navigator.userAgent.includes('CrKey');
+
+/**
+ * @const {boolean}
+ */
+EncryptionSchemePolyfills.isRecentFirefox =
+    parseInt(navigator.userAgent.split('Firefox/').pop(), 10) >= 100;
 
 // Support for CommonJS and AMD module formats.
 /** @suppress {undefinedVars} */
