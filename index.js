@@ -367,10 +367,10 @@ class McEncryptionSchemePolyfill {
         configuration: requestedConfiguration,
       };
 
-      if (audioScheme && !checkSupportedScheme(audioScheme, supportedScheme)) {
+      if (!checkSupportedScheme(audioScheme, supportedScheme)) {
         return notSupportedResult;
       }
-      if (videoScheme && !checkSupportedScheme(videoScheme, supportedScheme)) {
+      if (!checkSupportedScheme(videoScheme, supportedScheme)) {
         return notSupportedResult;
       }
     }
