@@ -599,7 +599,7 @@ function hasEncryptionScheme(mediaKeySystemAccess) {
 }
 
 /**
- * @param {?string} scheme Encryption scheme to check
+ * @param {(string|undefined)} scheme Encryption scheme to check
  * @param {?string} supportedScheme A guess at the encryption scheme this
  *   supports.
  * @return {boolean} True if the scheme is compatible.
