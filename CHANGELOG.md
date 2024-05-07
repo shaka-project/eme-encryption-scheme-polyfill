@@ -1,6 +1,14 @@
 # Changelog
 
 
+## [2.1.2](https://github.com/shaka-project/eme-encryption-scheme-polyfill/compare/v2.1.1...v2.1.2) (2024-05-07)
+
+
+### Bug Fixes
+
+* Fix CBCS support in some platforms ([#63](https://github.com/shaka-project/eme-encryption-scheme-polyfill/issues/63)) ([3978d61](https://github.com/shaka-project/eme-encryption-scheme-polyfill/commit/3978d619eb03534d89651a0cb11be8a9afad3387)), closes [#62](https://github.com/shaka-project/eme-encryption-scheme-polyfill/issues/62)
+* Use cbcs as default scheme for Safari ([#64](https://github.com/shaka-project/eme-encryption-scheme-polyfill/issues/64)) ([5316552](https://github.com/shaka-project/eme-encryption-scheme-polyfill/commit/53165526cd0297a987c7802bb2d7b190b7eb0c71))
+
 ## [2.1.1](https://github.com/shaka-project/eme-encryption-scheme-polyfill/compare/v2.1.0...v2.1.1) (2022-08-10)
 
 
