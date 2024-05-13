@@ -1,0 +1,56 @@
+# A workflow to publish the demo to GitHub Pages.
+name: Publish Demo
+
+# Runs on push to main.
+on:
+  push:
+    branches:
+      - main
+  # For manual debugging:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "The ref to build from."
+        required: true
+        type: string
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.ref }}
+
+      - name: Build
+        run: npm ci && npm run build
+
+      - name: Clean
+        run: rm -rf node_modules
+
+      - name: Upload artifacts
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+  publish:
+    name: Publish updated demo
+    needs: build
+    runs-on: ubuntu-latest
+
+    # Grant GITHUB_TOKEN the permissions required to deploy to Pages
+    permissions:
+      pages: write
+      id-token: write
+
+    # Deploy to the github-pages environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
