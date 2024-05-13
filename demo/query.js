@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
       window.results.textContent =
           formatObjectToString(mksa.getConfiguration());
     } catch (error) {
+      console.log(error);
       window.results.textContent = formatObjectToString({error: error.message});
     }
   });  // emeRun click listener
@@ -113,6 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
             formatObjectToString(mksa.getConfiguration());
       }
     } catch (error) {
+      console.log(error);
       window.results.textContent = formatObjectToString({error: error.message});
     }
   });  // mcRun click listener
