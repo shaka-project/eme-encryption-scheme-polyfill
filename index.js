@@ -178,10 +178,15 @@ class EmeEncryptionSchemePolyfill {
     const mediaKeySystemAccess =
         await EmeEncryptionSchemePolyfill.originalRMKSA_.call(
             this, keySystem, filteredSupportedConfigurations);
+
     // Wrap the MKSA object in ours to provide the missing field in the
     // returned configuration.
+    const videoScheme = filteredSupportedConfigurations[0]
+        .videoCapabilities[0].encryptionScheme;
+    const audioScheme = filteredSupportedConfigurations[0]
+        .audioCapabilities[0].encryptionScheme;
     return new EmeEncryptionSchemePolyfillMediaKeySystemAccess(
-        mediaKeySystemAccess, supportedScheme);
+        mediaKeySystemAccess, videoScheme, audioScheme);
   }
 
   /**
@@ -345,19 +350,20 @@ class McEncryptionSchemePolyfill {
     console.assert(this == navigator.mediaCapabilities,
         'bad "this" for decodingInfo');
 
-    let supportedScheme = null;
+    let videoScheme = null;
+    let audioScheme = null;
 
     if (requestedConfiguration.keySystemConfiguration) {
       const keySystemConfig = requestedConfiguration.keySystemConfiguration;
 
       const keySystem = keySystemConfig.keySystem;
 
-      const audioScheme = keySystemConfig.audio &&
+      audioScheme = keySystemConfig.audio &&
           keySystemConfig.audio.encryptionScheme;
-      const videoScheme = keySystemConfig.video &&
+      videoScheme = keySystemConfig.video &&
           keySystemConfig.video.encryptionScheme;
 
-      supportedScheme = guessSupportedScheme(keySystem);
+      const supportedScheme = guessSupportedScheme(keySystem);
 
       const notSupportedResult = {
         powerEfficient: false,
@@ -387,7 +393,7 @@ class McEncryptionSchemePolyfill {
       // the missing field in the returned configuration.
       capabilities.keySystemAccess =
           new EmeEncryptionSchemePolyfillMediaKeySystemAccess(
-              capabilities.keySystemAccess, supportedScheme);
+              capabilities.keySystemAccess, videoScheme, audioScheme);
     } else if (requestedConfiguration.keySystemConfiguration) {
       // If the result is supported and the content is encrypted, we should have
       // a MediaKeySystemAccess instance as part of the result.  If we land
@@ -439,6 +445,7 @@ class McEncryptionSchemePolyfill {
       const capability = {
         robustness: mediaCapKeySystemConfig.audio.robustness || '',
         contentType: decodingConfig.audio.contentType,
+        encryptionScheme: mediaCapKeySystemConfig.audio.encryptionScheme,
       };
       audioCapabilities.push(capability);
     }
@@ -447,6 +454,7 @@ class McEncryptionSchemePolyfill {
       const capability = {
         robustness: mediaCapKeySystemConfig.video.robustness || '',
         contentType: decodingConfig.video.contentType,
+        encryptionScheme: mediaCapKeySystemConfig.video.encryptionScheme,
       };
       videoCapabilities.push(capability);
     }
@@ -487,9 +495,12 @@ class EmeEncryptionSchemePolyfillMediaKeySystemAccess {
   /**
    * @param {!MediaKeySystemAccess} mksa A native MediaKeySystemAccess instance
    *   to wrap.
-   * @param {?string} scheme The encryption scheme to add to the configuration.
+   * @param {?string} videoScheme The encryption scheme to add to the
+   *   configuration for video.
+   * @param {?string} audioScheme The encryption scheme to add to the
+   *   configuration for audio.
    */
-  constructor(mksa, scheme) {
+  constructor(mksa, videoScheme, audioScheme) {
     /**
      * @const {!MediaKeySystemAccess}
      * @private
@@ -500,7 +511,13 @@ class EmeEncryptionSchemePolyfillMediaKeySystemAccess {
      * @const {?string}
      * @private
      */
-    this.scheme_ = scheme;
+    this.videoScheme_ = videoScheme;
+
+    /**
+     * @const {?string}
+     * @private
+     */
+    this.audioScheme_ = audioScheme;
 
     /** @const {string} */
     this.keySystem = mksa.keySystem;
@@ -518,13 +535,13 @@ class EmeEncryptionSchemePolyfillMediaKeySystemAccess {
 
     if (configuration.videoCapabilities) {
       for (const capability of configuration.videoCapabilities) {
-        capability['encryptionScheme'] = this.scheme_;
+        capability['encryptionScheme'] = this.videoScheme_;
       }
     }
 
     if (configuration.audioCapabilities) {
       for (const capability of configuration.audioCapabilities) {
-        capability['encryptionScheme'] = this.scheme_;
+        capability['encryptionScheme'] = this.audioScheme_;
       }
     }
 
