@@ -495,9 +495,9 @@ class EmeEncryptionSchemePolyfillMediaKeySystemAccess {
   /**
    * @param {!MediaKeySystemAccess} mksa A native MediaKeySystemAccess instance
    *   to wrap.
-   * @param {?string} videoScheme The encryption scheme to add to the
+   * @param {?string|undefined} videoScheme The encryption scheme to add to the
    *   configuration for video.
-   * @param {?string} audioScheme The encryption scheme to add to the
+   * @param {?string|undefined} audioScheme The encryption scheme to add to the
    *   configuration for audio.
    */
   constructor(mksa, videoScheme, audioScheme) {
@@ -511,13 +511,13 @@ class EmeEncryptionSchemePolyfillMediaKeySystemAccess {
      * @const {?string}
      * @private
      */
-    this.videoScheme_ = videoScheme;
+    this.videoScheme_ = videoScheme || null;
 
     /**
      * @const {?string}
      * @private
      */
-    this.audioScheme_ = audioScheme;
+    this.audioScheme_ = audioScheme || null;
 
     /** @const {string} */
     this.keySystem = mksa.keySystem;
@@ -616,7 +616,7 @@ function hasEncryptionScheme(mediaKeySystemAccess) {
 }
 
 /**
- * @param {(string|undefined)} scheme Encryption scheme to check
+ * @param {(string|undefined|null)} scheme Encryption scheme to check
  * @param {?string} supportedScheme A guess at the encryption scheme this
  *   supports.
  * @return {boolean} True if the scheme is compatible.
