@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [2.1.3](https://github.com/shaka-project/eme-encryption-scheme-polyfill/compare/v2.1.2...v2.1.3) (2024-05-14)
+
+
+### Bug Fixes
+
+* **demo:** Log demo errors to the console ([#68](https://github.com/shaka-project/eme-encryption-scheme-polyfill/issues/68)) ([ccfb179](https://github.com/shaka-project/eme-encryption-scheme-polyfill/commit/ccfb1793ca80594a368cb669b97fa3ce0c50a09c))
+* **demo:** Upgrade UI combo box component ([#67](https://github.com/shaka-project/eme-encryption-scheme-polyfill/issues/67)) ([0d51ba6](https://github.com/shaka-project/eme-encryption-scheme-polyfill/commit/0d51ba6b96ccadf556d8f6ef90501906258d3186))
+* Populate requested scheme into output, not default scheme ([#69](https://github.com/shaka-project/eme-encryption-scheme-polyfill/issues/69)) ([aa79c72](https://github.com/shaka-project/eme-encryption-scheme-polyfill/commit/aa79c72fdab050d98c682fee2b0b1d2bcdeb47d6))
+
 ## [2.1.2](https://github.com/shaka-project/eme-encryption-scheme-polyfill/compare/v2.1.1...v2.1.2) (2024-05-07)
 
 
