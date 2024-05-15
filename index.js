@@ -33,7 +33,8 @@ class EmeEncryptionSchemePolyfill {
    * @export
    */
   static install() {
-    if (EmeEncryptionSchemePolyfill.originalRMKSA_) {
+    if (EmeEncryptionSchemePolyfill.originalRMKSA_ ||
+        navigator['emeEncryptionSchemePolyfilled']) {
       console.debug('EmeEncryptionSchemePolyfill: Already installed.');
       return;
     }
@@ -53,6 +54,11 @@ class EmeEncryptionSchemePolyfill {
         'Waiting to detect encryptionScheme support.');
     navigator.requestMediaKeySystemAccess =
         EmeEncryptionSchemePolyfill.probeRMKSA_;
+
+    // Mark EME as polyfilled.  This keeps us from running into conflicts
+    // between multiple versions of this (compiled Shaka lib vs
+    // uncompiled source).
+    navigator['emeEncryptionSchemePolyfilled'] = true;
   }
 
   /**
@@ -240,7 +246,8 @@ class McEncryptionSchemePolyfill {
    * @export
    */
   static install() {
-    if (McEncryptionSchemePolyfill.originalDecodingInfo_) {
+    if (McEncryptionSchemePolyfill.originalDecodingInfo_ ||
+        navigator['mediaCapabilitiesEncryptionSchemePolyfilled']) {
       console.debug('McEncryptionSchemePolyfill: Already installed.');
       return;
     }
@@ -259,6 +266,11 @@ class McEncryptionSchemePolyfill {
         'Waiting to detect encryptionScheme support.');
     navigator.mediaCapabilities.decodingInfo =
         McEncryptionSchemePolyfill.probeDecodingInfo_;
+
+    // Mark MediaCapabilities as polyfilled.  This keeps us from running into
+    // conflicts between multiple versions of this (compiled Shaka lib vs
+    // uncompiled source).
+    navigator['mediaCapabilitiesEncryptionSchemePolyfilled'] = true;
   }
 
   /**
