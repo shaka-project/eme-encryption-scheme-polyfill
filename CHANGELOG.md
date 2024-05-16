@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [2.1.4](https://github.com/shaka-project/eme-encryption-scheme-polyfill/compare/v2.1.3...v2.1.4) (2024-05-16)
+
+
+### Bug Fixes
+
+* Fix conflicts with multiple installations ([#71](https://github.com/shaka-project/eme-encryption-scheme-polyfill/issues/71)) ([d74823f](https://github.com/shaka-project/eme-encryption-scheme-polyfill/commit/d74823fe9e537497f1ec858943d9c1c6d152c2c3))
+
 ## [2.1.3](https://github.com/shaka-project/eme-encryption-scheme-polyfill/compare/v2.1.2...v2.1.3) (2024-05-14)
 
 
