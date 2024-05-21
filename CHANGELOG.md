@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [2.1.5](https://github.com/shaka-project/eme-encryption-scheme-polyfill/compare/v2.1.4...v2.1.5) (2024-05-21)
+
+
+### Bug Fixes
+
+* Fix access to null properties ([#73](https://github.com/shaka-project/eme-encryption-scheme-polyfill/issues/73)) ([339842e](https://github.com/shaka-project/eme-encryption-scheme-polyfill/commit/339842e94372d2f1b5d9605b88b38908fc2a6459))
+
 ## [2.1.4](https://github.com/shaka-project/eme-encryption-scheme-polyfill/compare/v2.1.3...v2.1.4) (2024-05-16)
 
 
