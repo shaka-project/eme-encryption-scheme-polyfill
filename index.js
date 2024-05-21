@@ -187,10 +187,18 @@ class EmeEncryptionSchemePolyfill {
 
     // Wrap the MKSA object in ours to provide the missing field in the
     // returned configuration.
-    const videoScheme = filteredSupportedConfigurations[0]
-        .videoCapabilities[0].encryptionScheme;
-    const audioScheme = filteredSupportedConfigurations[0]
-        .audioCapabilities[0].encryptionScheme;
+    let videoScheme = null;
+    let audioScheme = null;
+    if (filteredSupportedConfigurations[0]) {
+      if (filteredSupportedConfigurations[0].videoCapabilities) {
+        videoScheme = filteredSupportedConfigurations[0]
+          .videoCapabilities[0].encryptionScheme;
+      }
+      if (filteredSupportedConfigurations[0].audioCapabilities) {
+        audioScheme = filteredSupportedConfigurations[0]
+          .audioCapabilities[0].encryptionScheme;
+      }
+    }
     return new EmeEncryptionSchemePolyfillMediaKeySystemAccess(
         mediaKeySystemAccess, videoScheme, audioScheme);
   }
