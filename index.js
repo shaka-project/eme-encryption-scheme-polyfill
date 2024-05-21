@@ -192,11 +192,11 @@ class EmeEncryptionSchemePolyfill {
     if (filteredSupportedConfigurations[0]) {
       if (filteredSupportedConfigurations[0].videoCapabilities) {
         videoScheme = filteredSupportedConfigurations[0]
-          .videoCapabilities[0].encryptionScheme;
+            .videoCapabilities[0].encryptionScheme;
       }
       if (filteredSupportedConfigurations[0].audioCapabilities) {
         audioScheme = filteredSupportedConfigurations[0]
-          .audioCapabilities[0].encryptionScheme;
+            .audioCapabilities[0].encryptionScheme;
       }
     }
     return new EmeEncryptionSchemePolyfillMediaKeySystemAccess(
