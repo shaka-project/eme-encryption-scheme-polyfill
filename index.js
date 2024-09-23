@@ -460,13 +460,19 @@ class McEncryptionSchemePolyfill {
     const mediaCapKeySystemConfig = decodingConfig.keySystemConfiguration;
     const audioCapabilities = [];
     const videoCapabilities = [];
+    const isLegacyPlatform = /PlayStation 4|Sky_STB/i.test(navigator.userAgent);
 
     if (mediaCapKeySystemConfig.audio) {
       const capability = {
         robustness: mediaCapKeySystemConfig.audio.robustness || '',
         contentType: decodingConfig.audio.contentType,
-        encryptionScheme: mediaCapKeySystemConfig.audio.encryptionScheme,
       };
+      // Exclude encryptionScheme for legacy platforms to prevent crashes
+      if (!isLegacyPlatform) {
+        capability.encryptionScheme =
+            mediaCapKeySystemConfig.audio.encryptionScheme;
+      }
+
       audioCapabilities.push(capability);
     }
 
@@ -474,8 +480,13 @@ class McEncryptionSchemePolyfill {
       const capability = {
         robustness: mediaCapKeySystemConfig.video.robustness || '',
         contentType: decodingConfig.video.contentType,
-        encryptionScheme: mediaCapKeySystemConfig.video.encryptionScheme,
       };
+      // Exclude encryptionScheme for legacy platforms to prevent crashes
+      if (!isLegacyPlatform) {
+        capability.encryptionScheme =
+            mediaCapKeySystemConfig.video.encryptionScheme;
+      }
+
       videoCapabilities.push(capability);
     }
 
