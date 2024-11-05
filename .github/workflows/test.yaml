@@ -9,6 +9,10 @@ on:
         description: "The ref to build and test."
         required: False
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || inputs.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     name: Test
@@ -17,7 +21,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.event.inputs.ref || github.ref }}
+          ref: ${{ inputs.ref || github.ref }}
 
       - name: Test
         run: |

@@ -17,21 +17,28 @@ jobs:
 
       # The logic below handles npm publication.  Each step is conditional on a
       # release having been created by someone merging the release PR.
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+        with:
+          ref: refs/tags/${{ steps.release.outputs.tag_name }}
         if: ${{ steps.release.outputs.release_created }}
+
       - uses: actions/setup-node@v1
         with:
           node-version: 12
           registry-url: 'https://registry.npmjs.org'
         if: ${{ steps.release.outputs.release_created }}
+
       - run: npm ci
         if: ${{ steps.release.outputs.release_created }}
+
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
         if: ${{ steps.release.outputs.release_created }}
+
       - run: npm pack
         if: ${{ steps.release.outputs.release_created }}
+
       - uses: svenstaro/upload-release-action@483c1e56f95e88835747b1c7c60581215016cbf2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
