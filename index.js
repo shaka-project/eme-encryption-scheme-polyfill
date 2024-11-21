@@ -654,8 +654,10 @@ function checkSupportedScheme(scheme, supportedScheme) {
 
   if (scheme == 'cbcs' || scheme == 'cbcs-1-9') {
     if (EncryptionSchemePolyfills.isRecentFirefox ||
+        EncryptionSchemePolyfills.isRecentWebOS ||
         EncryptionSchemePolyfills.isChromecast) {
       // Firefox >= 100 supports CBCS, but doesn't support queries yet.
+      // WebOS >= 6 supports CBCS, but doesn't support queries yet.
       // Older Chromecast devices are assumed to support CBCS as well.
       return true;
     }
@@ -717,6 +719,23 @@ EncryptionSchemePolyfills.isChromecast =
  */
 EncryptionSchemePolyfills.isRecentFirefox =
     parseInt(navigator.userAgent.split('Firefox/').pop(), 10) >= 100;
+
+/**
+ * @const {boolean}
+ */
+EncryptionSchemePolyfills.isRecentWebOS = (() => {
+  const userAgent = navigator.userAgent || '';
+  const isWebOS = userAgent.includes('Web0S');
+  if (!isWebOS) {
+    return false;
+  }
+  const chromeVersionMatch = userAgent.match(/Chrome\/(\d+)/);
+  if (!chromeVersionMatch) {
+    return false;
+  }
+  const chromeVersion = parseInt(chromeVersionMatch[1], 10);
+  return chromeVersion >= 79;
+})();
 
 // Support for CommonJS and AMD module formats.
 /** @suppress {undefinedVars} */
