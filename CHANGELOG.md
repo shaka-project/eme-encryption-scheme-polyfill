@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [2.1.6](https://github.com/shaka-project/eme-encryption-scheme-polyfill/compare/v2.1.5...v2.1.6) (2024-11-21)
+
+
+### Bug Fixes
+
+* Fix CBCS support in recent WebOS ([#81](https://github.com/shaka-project/eme-encryption-scheme-polyfill/issues/81)) ([d5ecb15](https://github.com/shaka-project/eme-encryption-scheme-polyfill/commit/d5ecb15259ba6cd23a5b42a63c882ccb29469773))
+
 ## [2.1.5](https://github.com/shaka-project/eme-encryption-scheme-polyfill/compare/v2.1.4...v2.1.5) (2024-05-21)
 
 
