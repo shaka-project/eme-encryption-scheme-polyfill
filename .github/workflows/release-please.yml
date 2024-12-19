@@ -8,9 +8,16 @@ name: release-please
 jobs:
   release-please:
     runs-on: ubuntu-latest
+
+    permissions:
+      # Write to "contents" is needed to create a release
+      contents: write
+      # Write to pull-requests is needed to create and update the release PR
+      pull-requests: write
+
     steps:
       # Create/update release PR
-      - uses: google-github-actions/release-please-action@v3
+      - uses: googleapis/release-please-action@v4
         id: release
         with:
           release-type: node
@@ -40,11 +47,9 @@ jobs:
       - run: npm pack
         if: ${{ steps.release.outputs.release_created }}
 
-      - uses: svenstaro/upload-release-action@483c1e56f95e88835747b1c7c60581215016cbf2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ steps.release.outputs.tag_name }}
-          file: eme-encryption-scheme-polyfill-*.tgz
-          file_glob: true
-          overwrite: true
+      - name: Attach files to release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload --clobber "${{ steps.release.outputs.tag_name }}" eme-encryption-scheme-polyfill-*.tgz
         if: ${{ steps.release.outputs.release_created }}
