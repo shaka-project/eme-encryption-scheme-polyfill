@@ -1,7 +1,7 @@
 {
   "name": "eme-encryption-scheme-polyfill",
   "description": "A polyfill for the encryptionScheme field in EME",
-  "version": "2.1.6",
+  "version": "2.2.0",
   "license": "Apache-2.0",
   "author": "Google",
   "homepage": "https://github.com/shaka-project/eme-encryption-scheme-polyfill#readme",

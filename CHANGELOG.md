@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [2.2.0](https://github.com/shaka-project/eme-encryption-scheme-polyfill/compare/v2.1.6...v2.2.0) (2025-01-09)
+
+
+### Features
+
+* Add support for huawei wiseplay drm ([#90](https://github.com/shaka-project/eme-encryption-scheme-polyfill/issues/90)) ([7760e58](https://github.com/shaka-project/eme-encryption-scheme-polyfill/commit/7760e58f69fac3fe05ad6efac2b55847351ed6e0))
+
 ## [2.1.6](https://github.com/shaka-project/eme-encryption-scheme-polyfill/compare/v2.1.5...v2.1.6) (2024-11-21)
 
 
