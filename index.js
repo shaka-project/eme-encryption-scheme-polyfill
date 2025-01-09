@@ -597,6 +597,8 @@ function guessSupportedScheme(keySystem) {
     return 'cenc';
   } else if (keySystem.startsWith('com.apple')) {
     return 'cbcs';
+  } else if (keySystem.startsWith('com.huawei')) {
+    return 'cenc';
   }
 
   // We don't have this key system in our map!
