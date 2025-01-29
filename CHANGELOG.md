@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [2.2.1](https://github.com/shaka-project/eme-encryption-scheme-polyfill/compare/v2.2.0...v2.2.1) (2025-01-29)
+
+
+### Bug Fixes
+
+* Do not check compatibility if MCap configuration is not compatible ([#92](https://github.com/shaka-project/eme-encryption-scheme-polyfill/issues/92)) ([e59e327](https://github.com/shaka-project/eme-encryption-scheme-polyfill/commit/e59e3272f38c534b5ac12352e1a705cb507f213e))
+
 ## [2.2.0](https://github.com/shaka-project/eme-encryption-scheme-polyfill/compare/v2.1.6...v2.2.0) (2025-01-09)
 
 
