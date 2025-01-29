@@ -303,6 +303,11 @@ class McEncryptionSchemePolyfill {
         await McEncryptionSchemePolyfill.originalDecodingInfo_.call(
             this, requestedConfiguration);
 
+    // If the config is not supported, we don't need to try anything else.
+    if (!capabilities.supported) {
+      return capabilities;
+    }
+
     if (!requestedConfiguration.keySystemConfiguration) {
       // This was not a query regarding encrypted content.  The results are
       // valid, but won't tell us anything about native support for
