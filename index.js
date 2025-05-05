@@ -636,7 +636,8 @@ function hasEncryptionScheme(mediaKeySystemAccess) {
   // If supported by the browser, the encryptionScheme field must appear in
   // the returned configuration, regardless of whether or not it was
   // specified in the supportedConfigurations given by the application.
-  if (firstCapability && firstCapability['encryptionScheme'] !== undefined) {
+  if (firstCapability && firstCapability['encryptionScheme'] !== undefined &&
+      firstCapability['encryptionScheme'] !== null) {
     return true;
   }
   return false;
