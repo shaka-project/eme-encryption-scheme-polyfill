@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [2.2.3](https://github.com/shaka-project/eme-encryption-scheme-polyfill/compare/v2.2.2...v2.2.3) (2025-05-12)
+
+
+### Bug Fixes
+
+* null encryptionScheme is valid ([#97](https://github.com/shaka-project/eme-encryption-scheme-polyfill/issues/97)) ([3db8fee](https://github.com/shaka-project/eme-encryption-scheme-polyfill/commit/3db8feedbc27a074796cef0361853dd9b9596e58))
+
 ## [2.2.2](https://github.com/shaka-project/eme-encryption-scheme-polyfill/compare/v2.2.1...v2.2.2) (2025-05-05)
 
 
