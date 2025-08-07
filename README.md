@@ -1,3 +1,20 @@
+# ARCHIVED - FOLDED INTO SHAKA PLAYER
+
+The Shaka Player maintainers felt that this was better if folded into the player
+instead of being maintained as a separate project.  In addition, nobody
+responded to an announcement in
+https://github.com/shaka-project/eme-encryption-scheme-polyfill/issues/100
+objecting to us archiving this project.
+
+Find the new source here:
+https://github.com/shaka-project/shaka-player/blob/main/lib/polyfill/eme_encryption_scheme.js
+
+
+-----
+
+
+
+
 # EME & MediaCapabilities Encryption Scheme Polyfill
 
 A polyfill to add support for EncryptionScheme queries in EME and
